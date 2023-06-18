@@ -21,9 +21,10 @@ public class LogCellPosition : MonoBehaviour
             Vector2 mouseWorldPos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
             Vector2Int cellPosition = (Vector2Int)tilemap.WorldToCell(mouseWorldPos);
             Tile tile = TileManager.Instance.GetTile(cellPosition);
-            string walkableStatus = tile.Walkable ? "is Walkable" : "is not Walkable";
+            string walkableStatus = tile.TileNode.Walkable ? "is Walkable" : "is not Walkable";
+            string pathStatus = tile.IsPath ? "is Path" : "is not Path";
             cellPosition = tile.Position;
-            Debug.Log($"Clicked cell position: {cellPosition} {walkableStatus}");
+            Debug.Log($"Clicked cell position: {cellPosition}: {walkableStatus}: {pathStatus}");
         }
     }
 }
