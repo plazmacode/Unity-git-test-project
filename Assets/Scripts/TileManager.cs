@@ -50,13 +50,47 @@ public class TileManager : MonoBehaviour
     private Color32 pathColor = new Color32(255, 0, 255, 255);
     private List<GameObject> debugObjects = new List<GameObject>();
 
+    [SerializeField]
+    private Vector2Int startPosition;
+
+    [SerializeField]
+    private Vector2Int goalPosition;
+
+    private Stack<Node> path;
+
+    public Stack<Node> Path
+    {
+        get
+        {
+            if (path == null)
+            {
+                GeneratePath();
+            }
+            return new Stack<Node>(new Stack<Node>(path));
+        }
+    }
+
     public void Start()
     {
         TileMap = GetComponent<Tilemap>();
         SetupTiles();
     }
 
-    public void ColorPathfinding(HashSet<Node> openList, HashSet<Node> closedList, Dictionary<Vector2Int, Node> allNodes, Vector2Int start, Vector2Int goal, Stack<Vector2Int> path = null)
+    public void Update()
+    {
+        if (Input.GetKeyDown(KeyCode.Space))
+        {
+            // generates path and colors it
+            path = AStar.Instance.GetPath(startPosition, goalPosition, true);
+        }
+    }
+
+    public void GeneratePath()
+    {
+        path = AStar.Instance.GetPath(startPosition, goalPosition);
+    }
+
+    public void ColorPathfinding(HashSet<Node> openList, HashSet<Node> closedList, Dictionary<Vector2Int, Node> allNodes, Vector2Int start, Vector2Int goal, Stack<Node> path = null)
     {
         foreach (Node node in openList)
         {
@@ -70,17 +104,23 @@ public class TileManager : MonoBehaviour
 
         if (path != null)
         {
-            foreach (Vector2Int pos in path)
+            foreach (Node node in path)
             {
-                if (pos != start && pos != goal)
+                if (node.Position != start && node.Position != goal)
                 {
-                    ColorTile(pos, pathColor);
+                    ColorTile(node.Position, pathColor);
                 }
             }
         }
 
         ColorTile(start, startColor);
         ColorTile(goal, goalColor);
+
+        for (int i = canvas.transform.childCount - 1; i >= 0; i--)
+        {
+            Transform child = canvas.transform.GetChild(i);
+            Destroy(child.gameObject);
+        }
 
         foreach (KeyValuePair<Vector2Int, Node> node in allNodes)
         {
@@ -172,6 +212,7 @@ public class Tile
     public Node TileNode { get; set; }
 
     public Vector2Int Position;
+    public Vector3 WorldPosition;
     public bool IsPath = false;
 
     /// <summary>
@@ -182,7 +223,8 @@ public class Tile
     public Tile(Vector2Int position)
     {
         Position = position;
-        TileNode = new Node(position) { Tile = this };
+        WorldPosition = TileManager.Instance.TileMap.CellToWorld((Vector3Int)position);
+        TileNode = new Node(this) { Tile = this };
     }
     
     // Possible variables:

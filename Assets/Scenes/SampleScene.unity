@@ -199,7 +199,7 @@ TilemapRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 2
+  m_SortingOrder: 1
   m_ChunkSize: {x: 32, y: 32, z: 32}
   m_ChunkCullingBounds: {x: 0, y: 0, z: 0}
   m_MaxChunkCount: 16
@@ -4309,6 +4309,8 @@ MonoBehaviour:
   - {fileID: -407591757, guid: 2d02d1f279a2339429f62b4453f6489a, type: 3}
   debugTextPrefab: {fileID: 4783651514758980121, guid: 9dc2ff6781e88f14aac1aea5f7c28162, type: 3}
   canvas: {fileID: 588990888}
+  startPosition: {x: -12, y: 4}
+  goalPosition: {x: 8, y: -6}
 --- !u!114 &4603025
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -4321,8 +4323,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7e5a8cb2256c2ba4099249c801c953d6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  startPosition: {x: -12, y: 4}
-  goalPosition: {x: 8, y: -6}
   pathOnly: 1
 --- !u!1 &519420028
 GameObject:

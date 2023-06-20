@@ -11,12 +11,10 @@ public class AStar : MonoBehaviour
     private HashSet<Node> openList;
     private HashSet<Node> closedList;
 
-    private Stack<Vector2Int> path;
+    private Stack<Node> path;
 
-    [SerializeField]
     private Vector2Int startPosition;
 
-    [SerializeField]
     private Vector2Int goalPosition;
 
     private HashSet<Vector2Int> blockedNodes = new HashSet<Vector2Int>();
@@ -44,8 +42,6 @@ public class AStar : MonoBehaviour
 
     private void Initialize()
     {
-        startPosition = new Vector2Int(-12, 4);
-        goalPosition = new Vector2Int(8, -6);
         current = GetNode(startPosition);
 
         openList = new HashSet<Node>();
@@ -53,16 +49,11 @@ public class AStar : MonoBehaviour
         openList.Add(current);
     }
 
-    public void Update()
+    public Stack<Node> GetPath(Vector2Int start, Vector2Int goal, bool colorPath = false)
     {
-        if (Input.GetKeyDown(KeyCode.Space))
-        {
-            Algorithm();
-        }
-    }
+        startPosition = start;
+        goalPosition = goal;
 
-    private void Algorithm()
-    {
         if (current == null)
         {
             Initialize();
@@ -80,7 +71,11 @@ public class AStar : MonoBehaviour
             i++;
         }
 
-        TileManager.Instance.ColorPathfinding(openList, closedList, AllNodes, startPosition, goalPosition, path);
+        if (colorPath)
+        {
+            TileManager.Instance.ColorPathfinding(openList, closedList, AllNodes, startPosition, goalPosition, path);
+        }
+        return path;
     }
 
     private List<Node> FindNeighbors(Vector2Int parentPosition)
@@ -239,15 +234,15 @@ private void UpdateCurrentNode(ref Node current)
         return null;
     }
 
-    private Stack<Vector2Int> GeneratePath(Node current)
+    private Stack<Node> GeneratePath(Node current)
     {
         if (current.Position == goalPosition)
         {
-            Stack<Vector2Int> finalPath = new Stack<Vector2Int>();
+            Stack<Node> finalPath = new Stack<Node>();
 
             while (current.Position != startPosition)
             {
-                finalPath.Push(current.Position);
+                finalPath.Push(current);
 
                 current = current.Parent;
             }

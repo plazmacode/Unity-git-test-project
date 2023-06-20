@@ -15,9 +15,9 @@ public class Node
 
     public bool IsPath = false;
 
-    public Node (Vector2Int Position)
+    public Node (Tile tileRef)
     {
-        this.Position = Position;
+        Tile = tileRef;
         AStar.Instance.AllNodes.Add(Position, this);
     }
 
