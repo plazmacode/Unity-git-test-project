@@ -17,13 +17,11 @@ public class AStar : MonoBehaviour
 
     private Vector2Int goalPosition;
 
-    private HashSet<Vector2Int> blockedNodes = new HashSet<Vector2Int>();
-
-    [SerializeField]
-    private bool pathOnly = true;
+    private HashSet<Vector2Int> blockedNodePositions = new HashSet<Vector2Int>();
 
     /// <summary>
-    /// DANGEROUS IMPLEMENTATION: Changing AllNodes while AStar is running is a bad idea. Add custom function later to update AllNodes
+    /// DANGEROUS IMPLEMENTATION: Changing AllNodes while AStar is running is a bad idea. Add custom function later to Add and Remove nodes. <br></br>
+    /// If the AllNodes Dictionary is changed, eg. placing a tower blocking a node the algorithm is using, then the foreach loops will fail
     /// </summary>
     public Dictionary<Vector2Int, Node> AllNodes { get; set; } = new Dictionary<Vector2Int, Node>();
 
@@ -40,6 +38,9 @@ public class AStar : MonoBehaviour
         }
     }
 
+    /// <summary>
+    /// Initializes open and clsoed list, sets current ndoe to startPosition.
+    /// </summary>
     private void Initialize()
     {
         current = GetNode(startPosition);
@@ -103,6 +104,31 @@ public class AStar : MonoBehaviour
         return neighbors;
     }
 
+    /// <summary>
+    /// Find posititions around parent. <br></br>
+    /// Used for finding blocked nodes.
+    /// </summary>
+    /// <param name="parentPosition"></param>
+    /// <returns></returns>
+    private List<Vector2Int> FindNeighborPositions(Vector2Int parentPosition)
+    {
+        List<Vector2Int> neighbors = new List<Vector2Int>();
+
+        for (int x = -1; x <= 1; x++)
+        {
+            for (int y = -1; y <= 1; y++)
+            {
+                Vector2Int neighborPosition = new Vector2Int(parentPosition.x - x, parentPosition.y - y);
+                if (y != 0 || x != 0)
+                {
+                    neighbors.Add(neighborPosition);
+                }
+            }
+        }
+
+        return neighbors;
+    }
+
     private void ExamineNeighbors(List<Node> neighbors, Node current)
     {
         for (int i = 0; i < neighbors.Count; i++)
@@ -115,14 +141,16 @@ public class AStar : MonoBehaviour
                 continue;
             }
 
-            if (!current.IsPath)
-            {
-                // Skip current if it is not a path
-                if (pathOnly)
-                {
-                    continue;
-                }
-            }
+            // Different implementation of Path Only
+            // Current implementation only creates nodes walkable nodes on paths, when Path Only is used.
+            //if (!current.IsPath)
+            //{
+            //    // Skip current if it is not a path
+            //    if (TileManager.Instance.OnlyPathWalkable)
+            //    {
+            //        continue;
+            //    }
+            //}
 
             int gScore = DetermineGScore(neighbors[i].Position, current.Position);
 
@@ -142,6 +170,9 @@ public class AStar : MonoBehaviour
         }
     }
 
+    /// <summary>
+    /// Cannot get blocked nodes if there are no node neighbors :(
+    /// </summary>
     private void GetBlockedNodes()
     {
         foreach (Node node in AllNodes.Values)
@@ -150,11 +181,37 @@ public class AStar : MonoBehaviour
             // For static path also add nodes that are not a path
             if (!node.Walkable)
             {
-                blockedNodes.Add(node.Position);
+                // Add THIS position to blocked list
+                blockedNodePositions.Add(node.Position);
             }
-            if (!node.IsPath && pathOnly)
+            
+            // Check assumes neighbor nodes exist in Only Path mode
+            // They do not in first implementation. See Tile class inside TileManager.
+            if (!node.IsPath && TileManager.Instance.OnlyPathWalkable)
             {
-                blockedNodes.Add(node.Position);
+                // Add THIS position to blocked list
+                blockedNodePositions.Add(node.Position);
+            }
+
+            // Assumes nodes are only created if they are walkable.
+            // Used because instead of above check.
+            if (TileManager.Instance.OnlyPathWalkable)
+            {
+                // Get a list of the 8 positions surrounding this node
+                List<Vector2Int> neighborPositions = FindNeighborPositions(node.Position);
+                
+                // Check all 8 positions
+                for (int i = 0; i < neighborPositions.Count; i++)
+                {
+                    Node n;
+                    AllNodes.TryGetValue(neighborPositions[i], out n);
+                    // If position has no node. Therefore no path
+                    if (n == null)
+                    {
+                        // Add SURROUNDING positions to blocked nodes.
+                        blockedNodePositions.Add(neighborPositions[i]);
+                    }
+                }
             }
         }
     }
@@ -169,7 +226,7 @@ public class AStar : MonoBehaviour
         GetBlockedNodes();
 
         //Check blocked nodes list
-        if (blockedNodes.Contains(first) || blockedNodes.Contains(second))
+        if (blockedNodePositions.Contains(first) || blockedNodePositions.Contains(second))
         {
             return false;
         }
@@ -212,7 +269,7 @@ public class AStar : MonoBehaviour
         return gScore;
     }
 
-private void UpdateCurrentNode(ref Node current)
+    private void UpdateCurrentNode(ref Node current)
     {
         openList.Remove(current);
 

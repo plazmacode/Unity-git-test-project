@@ -15,7 +15,7 @@ public class EnemyScript : MonoBehaviour
 
     public void Start()
     {
-        SetPath(TileManager.Instance.Path);
+        SetPath(LevelManager.Instance.Path);
     }
 
     public void Update()

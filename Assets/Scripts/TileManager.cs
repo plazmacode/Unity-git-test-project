@@ -25,50 +25,61 @@ public class TileManager : MonoBehaviour
         }
     }
 
-    private bool showWalkables = false;
-
+    // Start and end position of tilemap.
     private Vector2Int firstTile = new Vector2Int(-12, 5);
     private Vector2Int lastTile = new Vector2Int(8, -7);
 
-    private Dictionary<Vector2Int, Tile> LevelTiles = new Dictionary<Vector2Int, Tile>();
+    private Dictionary<Vector2Int, Tile> levelTiles = new Dictionary<Vector2Int, Tile>();
 
+    /// <summary>
+    /// Property for accessing the Tilemap
+    /// </summary>
     public Tilemap TileMap { get; set; }
 
+    /// <summary>
+    /// List of Sprites considered walkable
+    /// </summary>
     [SerializeField]
     private List<Sprite> walkableSprites = new List<Sprite>();
 
+    /// <summary>
+    /// Prefab used to display tiles pathfinding information on canvas
+    /// </summary>
     [SerializeField]
     private GameObject debugTextPrefab;
 
+    /// <summary>
+    /// canvas to add pathfinding UI prefab to.
+    /// </summary>
     [SerializeField]
-    private Canvas canvas;
+    private Canvas debugCanvas;
 
+    [SerializeField]
+    private bool onlyPathWalkable;
+
+    public bool OnlyPathWalkable
+    {
+        get
+        {
+            return onlyPathWalkable;
+        }
+    }
+
+    // bool to determine if walkables should be colored.
+    [SerializeField]
+    private bool showWalkables = false;
+
+    // Colors of pathfinding
+    // NOTICE: the color is applied to the tile so it will be mixed.
+    // Change the tiles sprite to change this behaviour.
     private Color32 startColor = new Color32(50, 255, 50, 255);
     private Color32 goalColor = new Color32(255, 50, 50, 255);
     private Color32 openColor = new Color32(50, 50, 255, 255);
     private Color32 closedColor = new Color32(52, 235, 219, 255);
     private Color32 pathColor = new Color32(255, 0, 255, 255);
+
+    // List used in tutorial, idk what it does.
     private List<GameObject> debugObjects = new List<GameObject>();
-
-    [SerializeField]
-    private Vector2Int startPosition;
-
-    [SerializeField]
-    private Vector2Int goalPosition;
-
-    private Stack<Node> path;
-
-    public Stack<Node> Path
-    {
-        get
-        {
-            if (path == null)
-            {
-                GeneratePath();
-            }
-            return new Stack<Node>(new Stack<Node>(path));
-        }
-    }
 
     public void Start()
     {
@@ -76,20 +87,15 @@ public class TileManager : MonoBehaviour
         SetupTiles();
     }
 
-    public void Update()
-    {
-        if (Input.GetKeyDown(KeyCode.Space))
-        {
-            // generates path and colors it
-            path = AStar.Instance.GetPath(startPosition, goalPosition, true);
-        }
-    }
-
-    public void GeneratePath()
-    {
-        path = AStar.Instance.GetPath(startPosition, goalPosition);
-    }
-
+    /// <summary>
+    /// Color tiles according to pathfinding data.
+    /// </summary>
+    /// <param name="openList"></param>
+    /// <param name="closedList"></param>
+    /// <param name="allNodes"></param>
+    /// <param name="start"></param>
+    /// <param name="goal"></param>
+    /// <param name="path"></param>
     public void ColorPathfinding(HashSet<Node> openList, HashSet<Node> closedList, Dictionary<Vector2Int, Node> allNodes, Vector2Int start, Vector2Int goal, Stack<Node> path = null)
     {
         foreach (Node node in openList)
@@ -116,17 +122,19 @@ public class TileManager : MonoBehaviour
         ColorTile(start, startColor);
         ColorTile(goal, goalColor);
 
-        for (int i = canvas.transform.childCount - 1; i >= 0; i--)
+        // Destroy DebugCanvas children
+        for (int i = debugCanvas.transform.childCount - 1; i >= 0; i--)
         {
-            Transform child = canvas.transform.GetChild(i);
+            Transform child = debugCanvas.transform.GetChild(i);
             Destroy(child.gameObject);
         }
 
+        // Add debugPrefab of Astar neighbor values to canvas
         foreach (KeyValuePair<Vector2Int, Node> node in allNodes)
         {
             if (node.Value.Parent != null)
             {
-                GameObject go = Instantiate(debugTextPrefab, canvas.transform);
+                GameObject go = Instantiate(debugTextPrefab, debugCanvas.transform);
                 go.transform.position = TileMap.CellToWorld((Vector3Int)node.Key);
                 debugObjects.Add(go);
                 GenerateDebugText(node.Value, go.GetComponent<DebugText>());
@@ -134,6 +142,11 @@ public class TileManager : MonoBehaviour
         }
     }
 
+    /// <summary>
+    /// Update debugPrefab values
+    /// </summary>
+    /// <param name="node"></param>
+    /// <param name="debugText"></param>
     private void GenerateDebugText(Node node, DebugText debugText)
     {
         debugText.P.text = $"P:{node.Position.x},{node.Position.y}";
@@ -151,7 +164,8 @@ public class TileManager : MonoBehaviour
     }
 
     /// <summary>
-    /// Updates walkable bools on tiles
+    /// Populate levelTiles Dictionary containing Tile class.
+    /// Tile creation also creates Nodes used in pathfinding.
     /// </summary>
     public void SetupTiles()
     {
@@ -161,32 +175,47 @@ public class TileManager : MonoBehaviour
             {
                 Vector2Int levelTilesPosition = new Vector2Int(x, y);
                 Vector3Int tileMapPosition = new Vector3Int(x, y, 0);
-                Tile newTile = new Tile(levelTilesPosition);
+
+                // Skip node creation if only path tiles should have nodes
+                Tile newTile = new Tile(levelTilesPosition, !OnlyPathWalkable);
 
                 // Check if current Tiles sprite is a walkableSprite
                 if (walkableSprites.Contains(TileMap.GetSprite(tileMapPosition)))
                 {
+                    // Add Node to path nodes only
+                    // Prevent double creation of nodes with if-statement
+                    if (OnlyPathWalkable)
+                    {
+                        newTile.TileNode = new Node(newTile);
+                    }
+
                     newTile.IsPath = true;
 
                     // Update tileNode's IsPath variable
                     AStar.Instance.AllNodes[levelTilesPosition].IsPath = true;
                     AStar.Instance.AllNodes[levelTilesPosition].Walkable = true;
 
-                    // Green color overlay for walkable tiles
-                    if (showWalkables)
+                    // Green color overlay for walkable tiles when path used
+                    if (showWalkables && OnlyPathWalkable)
                     {
                         ColorTile(levelTilesPosition, new Color32(87, 255, 151, 255));
                         //TileMap.SetTileFlags(tileMapPosition, TileFlags.LockColor);
                     }
                 }
-                LevelTiles.Add(levelTilesPosition, newTile);
+                // Green color overlay for walkable tiles when path not used
+                if (showWalkables && !OnlyPathWalkable)
+                {
+                    ColorTile(levelTilesPosition, new Color32(87, 255, 151, 255));
+                    //TileMap.SetTileFlags(tileMapPosition, TileFlags.LockColor);
+                }
+                levelTiles.Add(levelTilesPosition, newTile);
             }
         }
     }
 
     public Tile GetTile(Vector2Int position)
     {
-        if (LevelTiles.TryGetValue(position, out Tile tile))
+        if (levelTiles.TryGetValue(position, out Tile tile))
         {
             return tile;
         }
@@ -196,9 +225,9 @@ public class TileManager : MonoBehaviour
 
     public void SetTile(Vector2Int position, Tile tile)
     {
-        if (LevelTiles.ContainsKey(position))
+        if (levelTiles.ContainsKey(position))
         {
-            LevelTiles[position] = tile;
+            levelTiles[position] = tile;
         }
     }
 }
@@ -220,11 +249,14 @@ public class Tile
     /// </summary>
     /// <param name="position"></param>
     /// <param name="isNode"></param>
-    public Tile(Vector2Int position)
+    public Tile(Vector2Int position, bool hasNode = true)
     {
         Position = position;
         WorldPosition = TileManager.Instance.TileMap.CellToWorld((Vector3Int)position);
-        TileNode = new Node(this) { Tile = this };
+        if (hasNode)
+        {
+            TileNode = new Node(this);
+        }
     }
     
     // Possible variables:

@@ -11,6 +11,9 @@ public class Node
     public Node Parent { get; set; }
     public Vector2Int Position { get; set; }
 
+    /// <summary>
+    /// Currently true because nodes are only created when a tile is walkable
+    /// </summary>
     public bool Walkable = true;
 
     public bool IsPath = false;
@@ -18,6 +21,7 @@ public class Node
     public Node (Tile tileRef)
     {
         Tile = tileRef;
+        Position = Tile.Position;
         AStar.Instance.AllNodes.Add(Position, this);
     }
 
