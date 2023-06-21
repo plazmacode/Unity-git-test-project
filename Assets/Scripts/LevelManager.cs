@@ -40,9 +40,11 @@ public class LevelManager : MonoBehaviour
         }
     }
 
+    public Vector2Int StartPosition { get => startPosition; set => startPosition = value; }
+
     public void GeneratePath(bool showDebug)
     {
-        path = AStar.Instance.GetPath(startPosition, goalPosition, showDebug);
+        path = AStar.Instance.GetPath(StartPosition, goalPosition, showDebug);
     }
 
     public void Update()

@@ -2,16 +2,23 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class EnemyScript : MonoBehaviour
+public class Enemy : MonoBehaviour
 {
     [SerializeField]
-    private float speed;
+    private float speed = 5;
 
     private Stack<Node> path;
 
     public Vector2Int GridPosition { get; set; }
 
     private Vector3 destination;
+
+    public void Spawn()
+    {
+        // Set start position from cell start from LevelManager Property
+
+        transform.position = TileManager.Instance.TileMap.CellToWorld((Vector3Int)LevelManager.Instance.StartPosition);
+    }
 
     public void Start()
     {

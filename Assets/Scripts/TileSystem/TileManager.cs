@@ -237,38 +237,3 @@ public class TileManager : MonoBehaviour
         }
     }
 }
-
-/// <summary>
-/// Tile class contains variables stored on each Tile.
-/// Pathfinding related variables stored on Node class
-/// </summary>
-public class Tile
-{
-    public Node TileNode { get; set; }
-
-    public Vector2Int Position;
-    public Vector3 WorldPosition;
-    public bool IsPath = false;
-
-    /// <summary>
-    /// Set isNode false when sprite is a permanent blocking sprite
-    /// </summary>
-    /// <param name="position"></param>
-    /// <param name="isNode"></param>
-    public Tile(Vector2Int position, bool hasNode = true)
-    {
-        Position = position;
-        WorldPosition = TileManager.Instance.TileMap.CellToWorld((Vector3Int)position);
-        if (hasNode)
-        {
-            TileNode = new Node(this);
-        }
-    }
-    
-    // Possible variables:
-    // Tower placed on tile
-    // Enemy / enemy amount on tile
-
-    // Tile bonus
-    // Tile terrain/biome type
-}
