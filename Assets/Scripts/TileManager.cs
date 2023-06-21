@@ -26,9 +26,12 @@ public class TileManager : MonoBehaviour
     }
 
     // Start and end position of tilemap.
-    private Vector2Int firstTile = new Vector2Int(-12, 5);
-    private Vector2Int lastTile = new Vector2Int(8, -7);
+    [SerializeField]
+    private Vector2Int[] tileLimits = new Vector2Int[2] { new Vector2Int(-12, 5), new Vector2Int(8, -7) }; 
+    public Vector2Int[] TileLimits { get => tileLimits; set => tileLimits = value; }
 
+    // Array for storing Tiles
+    // Tile class stores custom data for each Tile in the Tilemap.
     private Dictionary<Vector2Int, Tile> levelTiles = new Dictionary<Vector2Int, Tile>();
 
     /// <summary>
@@ -64,6 +67,7 @@ public class TileManager : MonoBehaviour
             return onlyPathWalkable;
         }
     }
+
 
     // bool to determine if walkables should be colored.
     [SerializeField]
@@ -169,9 +173,9 @@ public class TileManager : MonoBehaviour
     /// </summary>
     public void SetupTiles()
     {
-        for (int x = firstTile.x; x <= lastTile.x; x++)
+        for (int x = TileLimits[0].x; x <= TileLimits[1].x; x++)
         {
-            for (int y = firstTile.y; y >= lastTile.y; y--)
+            for (int y = TileLimits[0].y; y >= TileLimits[1].y; y--)
             {
                 Vector2Int levelTilesPosition = new Vector2Int(x, y);
                 Vector3Int tileMapPosition = new Vector3Int(x, y, 0);
@@ -211,6 +215,8 @@ public class TileManager : MonoBehaviour
                 levelTiles.Add(levelTilesPosition, newTile);
             }
         }
+        CameraMovement c = FindObjectOfType<CameraMovement>();
+        c.SetLimits();
     }
 
     public Tile GetTile(Vector2Int position)
