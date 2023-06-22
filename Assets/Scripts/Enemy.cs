@@ -7,17 +7,33 @@ public class Enemy : MonoBehaviour
     [SerializeField]
     private float speed = 5;
 
-    private Stack<Node> path;
+    [SerializeField]
+    private int health = 5;
 
+    public bool IsActive { get; set; }
+    private Stack<Node> path;
     public Vector2Int GridPosition { get; set; }
 
     private Vector3 destination;
 
+    private GameObject healthBar;
+
+    private void UpdateHealthBar()
+    {
+        healthBar.transform.localScale = new Vector3(health / 10f, 0.05f, 1);
+    }
+
     public void Spawn()
     {
         // Set start position from cell start from LevelManager Property
-
         transform.position = TileManager.Instance.TileMap.CellToWorld((Vector3Int)LevelManager.Instance.StartPosition);
+        UpdateHealthBar();
+        IsActive = true;
+    }
+
+    private void Awake()
+    {
+        healthBar = GameObject.Find("HealthBar");
     }
 
     public void Start()
@@ -32,14 +48,17 @@ public class Enemy : MonoBehaviour
 
     private void Move()
     {
-        transform.position = Vector2.MoveTowards(transform.position, destination, speed * Time.deltaTime);
-
-        if (transform.position == destination)
+        if (IsActive)
         {
-            if (path != null && path.Count > 0)
+            transform.position = Vector2.MoveTowards(transform.position, destination, speed * Time.deltaTime);
+
+            if (transform.position == destination)
             {
-                GridPosition = path.Peek().Position;
-                destination = path.Pop().Tile.WorldPosition;
+                if (path != null && path.Count > 0)
+                {
+                    GridPosition = path.Peek().Position;
+                    destination = path.Pop().Tile.WorldPosition;
+                }
             }
         }
     }
@@ -52,5 +71,22 @@ public class Enemy : MonoBehaviour
             GridPosition = path.Peek().Position;
             destination = path.Pop().Tile.WorldPosition;
         }
+    }
+
+    private void Release()
+    {
+        IsActive = false;
+        // Maybe add code for resetting position to start
+        GameManager.Instance.Pool.ReleaseObject(gameObject);
+    }
+
+    public void TakeDamage(int damage)
+    {
+        health -= damage;
+        if (health <= 0)
+        {
+            Release();
+        }
+        UpdateHealthBar();
     }
 }
