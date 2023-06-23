@@ -8,7 +8,8 @@ public class Enemy : MonoBehaviour
     private float speed = 5;
 
     [SerializeField]
-    private int health = 5;
+    private int originalHealth = 5;
+    private int health;
 
     public bool IsActive { get; set; }
     private Stack<Node> path;
@@ -27,18 +28,15 @@ public class Enemy : MonoBehaviour
     {
         // Set start position from cell start from LevelManager Property
         transform.position = TileManager.Instance.TileMap.CellToWorld((Vector3Int)LevelManager.Instance.StartPosition);
-        UpdateHealthBar();
         IsActive = true;
+        SetPath(LevelManager.Instance.Path);
+        health = originalHealth;
+        UpdateHealthBar();
     }
 
     private void Awake()
     {
-        healthBar = GameObject.Find("HealthBar");
-    }
-
-    public void Start()
-    {
-        SetPath(LevelManager.Instance.Path);
+        healthBar = transform.Find("HealthBar").gameObject;
     }
 
     public void Update()
