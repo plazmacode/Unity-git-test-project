@@ -2,23 +2,20 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class GameManager : MonoBehaviour
+public class GameManager : Singleton<GameManager>
 {
-    private static GameManager instance;
+    public ObjectPool Pool { get; set; }
 
-    public static GameManager Instance
+    [SerializeField]
+    private GameObject towerPrefab;
+
+    public GameObject TowerPrefab
     {
         get
         {
-            if (instance == null)
-            {
-                instance = FindObjectOfType<GameManager>();
-            }
-            return instance;
+            return towerPrefab;
         }
     }
-
-    public ObjectPool Pool { get; set; }
 
     private void Awake()
     {

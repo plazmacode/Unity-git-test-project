@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 
-public class AStar : MonoBehaviour
+public class AStar : Singleton<AStar>
 {
     private Node current;
 
@@ -24,19 +24,6 @@ public class AStar : MonoBehaviour
     /// If the AllNodes Dictionary is changed, eg. placing a tower blocking a node the algorithm is using, then the foreach loops will fail
     /// </summary>
     public Dictionary<Vector2Int, Node> AllNodes { get; set; } = new Dictionary<Vector2Int, Node>();
-
-    private static AStar instance;
-    public static AStar Instance
-    {
-        get
-        {
-            if (instance == null)
-            {
-                instance = FindObjectOfType<AStar>();
-            }
-            return instance;
-        }
-    }
 
     /// <summary>
     /// Initializes open and clsoed list, sets current ndoe to startPosition.

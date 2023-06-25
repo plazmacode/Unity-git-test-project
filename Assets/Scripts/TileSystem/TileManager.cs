@@ -3,27 +3,12 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Tilemaps;
 
-public class TileManager : MonoBehaviour
+public class TileManager : Singleton<TileManager>
 {
     // Possible variables:
     // Start/End tiles
     // Total tiles
     // First and last cell position used in level
-
-    private static TileManager instance;
-
-    public static TileManager Instance
-    {
-        get
-        {
-            if (instance == null)
-            {
-                instance = FindObjectOfType<TileManager>();
-            }
-
-            return instance;
-        }
-    }
 
     // Start and end position of tilemap.
     [SerializeField]
