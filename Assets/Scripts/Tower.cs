@@ -7,7 +7,8 @@ public class Tower : MonoBehaviour
     public Enemy Target { get; private set; }
 
     private Queue<Enemy> enemies = new Queue<Enemy>();
-
+    
+    [SerializeField]
     private GameObject turret;
 
     [SerializeField]
@@ -28,7 +29,8 @@ public class Tower : MonoBehaviour
 
     private void Awake()
     {
-        turret = GameObject.Find("Turret");
+        // Moved to SerializedField
+        //turret = GameObject.Find("Turret");
     }
 
     private void Update()
