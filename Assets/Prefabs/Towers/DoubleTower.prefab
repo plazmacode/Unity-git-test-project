@@ -174,7 +174,7 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 2
-  m_Sprite: {fileID: 21300000, guid: c43175fb5fd9f7c4eb1cd3f78c60a059, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 9567343e8a4a2d045a1668c6f97fd771, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -198,7 +198,7 @@ GameObject:
   - component: {fileID: -2277243603071767641}
   - component: {fileID: 1533300455}
   m_Layer: 0
-  m_Name: BasicTower
+  m_Name: DoubleTower
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -262,7 +262,7 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 1
-  m_Sprite: {fileID: 21300000, guid: ed6a3494657e27d4882c0cd79f4076b7, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 2c42889fe611a2b4c833dd7496c2f527, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -288,8 +288,8 @@ MonoBehaviour:
   turret: {fileID: 3854207159208040478}
   projectileType: BulletProjectile
   projectileSpeed: 8
-  damage: 5
-  attackCooldown: 0.3
+  damage: 10
+  attackCooldown: 0.4
 --- !u!50 &1533300455
 Rigidbody2D:
   serializedVersion: 4

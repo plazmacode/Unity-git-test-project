@@ -203,6 +203,44 @@ public class TileManager : Singleton<TileManager>
         CameraMovement c = FindObjectOfType<CameraMovement>();
         c.SetLimits();
     }
+    
+    /// <summary>
+    /// Check if tile is inside limits of play area.
+    /// </summary>
+    /// <param name="tile"></param>
+    /// <returns></returns>
+    public bool TileInsideArea(Tile tile)
+    {
+        if (tile.Position.x < tileLimits[0].x || tile.Position.x > tileLimits[1].x)
+            return false;
+
+        // Check if the tile's Y position is within the limits
+        if (tile.Position.y < tileLimits[1].y || tile.Position.y > tileLimits[0].y)
+            return false;
+
+        // Tile is inside the limits
+        return true;
+    }
+
+    /// <summary>
+    /// Check if tile is inside limits of play area.
+    /// </summary>
+    /// <param name="tile"></param>
+    /// <returns></returns>
+    public bool CellPositionInsideArea(Vector2Int position)
+    {
+        if (position.x < tileLimits[0].x || position.x > tileLimits[1].x)
+            return false;
+
+        // Check if the tile's Y position is within the limits
+        if (position.y < tileLimits[1].y || position.y > tileLimits[0].y)
+            return false;
+
+        // Tile is inside the limits
+        return true;
+    }
+
+
 
     public Tile GetTile(Vector2Int position)
     {

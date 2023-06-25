@@ -6,20 +6,14 @@ public class GameManager : Singleton<GameManager>
 {
     public ObjectPool Pool { get; set; }
 
-    [SerializeField]
-    private GameObject towerPrefab;
-
-    public GameObject TowerPrefab
-    {
-        get
-        {
-            return towerPrefab;
-        }
-    }
-
+    public TowerButton ClickedButton { get; set; }
     private void Awake()
     {
         Pool = GetComponent<ObjectPool>();
+    }
+    private void Update()
+    {
+        HandleEscape();
     }
 
     public void StartWave()
@@ -54,5 +48,24 @@ public class GameManager : Singleton<GameManager>
         Enemy enemy = Pool.GetObject(type).GetComponent<Enemy>();
         enemy.Spawn();
         yield return new WaitForSeconds(2.5f);
+    }
+
+    public void PickTower(TowerButton towerButton)
+    {
+        ClickedButton = towerButton;
+        Hover.Instance.Activate(towerButton.Sprite);
+    }
+
+    public void BuyTower()
+    {
+        Hover.Instance.Deactivate();
+    }
+
+    private void HandleEscape()
+    {
+        if (Input.GetKeyDown(KeyCode.Escape))
+        {
+            Hover.Instance.Deactivate();
+        }
     }
 }

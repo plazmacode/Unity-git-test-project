@@ -26,7 +26,6 @@ public class Tower : MonoBehaviour
 
     public float ProjectileSpeed { get => projectileSpeed; set => projectileSpeed = value; }
     public int Damage { get => damage; set => damage = value; }
-
     private void Awake()
     {
         // Moved to SerializedField
@@ -84,6 +83,15 @@ public class Tower : MonoBehaviour
         Projectile projectile = GameManager.Instance.Pool.GetObject(projectileType).GetComponent<Projectile>();
         projectile.Initizialize(this);
         projectile.transform.position = transform.position;
+    }
+
+    /// <summary>
+    /// Updates layer of tower and turet
+    /// </summary>
+    public void SetLayers(int layer)
+    {
+        GetComponent<SpriteRenderer>().sortingOrder = layer;
+        turret.GetComponent<SpriteRenderer>().sortingOrder = layer + 1;
     }
 
     private void OnTriggerEnter2D(Collider2D other)

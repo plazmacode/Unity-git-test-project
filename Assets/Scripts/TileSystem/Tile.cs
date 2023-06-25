@@ -7,9 +7,16 @@ public class Tile
 {
     public Node TileNode { get; set; }
 
-    public Vector2Int Position;
-    public Vector3 WorldPosition;
-    public bool IsPath = false;
+    /// <summary>
+    /// Grid / Cell Position
+    /// </summary>
+    public Vector2Int Position { get; set; }
+
+    /// <summary>
+    /// World position, pixel precise screen position.
+    /// </summary>
+    public Vector3 WorldPosition { get; set; }
+    public bool IsPath { get; set; } = false;
     private float tileSize = 0.32f;
 
     /// <summary>
