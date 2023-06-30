@@ -26,7 +26,6 @@ public class TileMouseScript : MonoBehaviour
             tile = TileManager.Instance.GetTile(mousePosition);
         } else
         {
-            Debug.Log("Mouse outside play area");
             currentTile = null;
             return;
         }

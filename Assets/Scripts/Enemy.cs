@@ -71,6 +71,9 @@ public class Enemy : MonoBehaviour
         }
     }
 
+    /// <summary>
+    /// Remove Enemy from game and place into ObjectPool
+    /// </summary>
     private void Release()
     {
         IsActive = false;
@@ -86,5 +89,17 @@ public class Enemy : MonoBehaviour
             Release();
         }
         UpdateHealthBar();
+    }
+
+    /// <summary>
+    /// Release enemy when hitting the goal/base
+    /// </summary>
+    /// <param name="other"></param>
+    private void OnTriggerEnter2D(Collider2D other)
+    {
+        if (other.tag == "Goal")
+        {
+            Release();
+        }
     }
 }
