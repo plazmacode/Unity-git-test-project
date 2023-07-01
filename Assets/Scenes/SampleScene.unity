@@ -4356,6 +4356,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b8c2c1de4dd7d524587d512f4de4e311, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  moneyText: {fileID: 389036887}
 --- !u!4 &34154347
 Transform:
   m_ObjectHideFlags: 0
@@ -4539,6 +4540,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   towerPrefab: {fileID: 3854207160036092061, guid: 52bf4ce0e4b9aa045aae837853d7bbaa, type: 3}
   sprite: {fileID: 21300000, guid: 9567343e8a4a2d045a1668c6f97fd771, type: 3}
+  buttonText: {fileID: 1079636368}
+  price: 20
+  towerName: Double
 --- !u!1 &374536169
 GameObject:
   m_ObjectHideFlags: 0
@@ -4585,6 +4589,141 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   startPosition: {x: -12, y: 4}
   goalPosition: {x: 8, y: -6}
+--- !u!1 &389036885
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 389036886}
+  - component: {fileID: 389036888}
+  - component: {fileID: 389036887}
+  m_Layer: 5
+  m_Name: MoneyText
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!224 &389036886
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 389036885}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 1288163613}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 0.5, y: 0.5}
+  m_AnchorMax: {x: 0.5, y: 0.5}
+  m_AnchoredPosition: {x: -260.8, y: 0.015549}
+  m_SizeDelta: {x: 137.9373, y: 25}
+  m_Pivot: {x: 0.5, y: 0.5}
+--- !u!114 &389036887
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 389036885}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f4688fdb7df04437aeb418b961361dc5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Material: {fileID: 0}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_RaycastTarget: 1
+  m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
+  m_Maskable: 1
+  m_OnCullStateChanged:
+    m_PersistentCalls:
+      m_Calls: []
+  m_text: 'Money: 0'
+  m_isRightToLeft: 0
+  m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
+  m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
+  m_fontSharedMaterials: []
+  m_fontMaterial: {fileID: 0}
+  m_fontMaterials: []
+  m_fontColor32:
+    serializedVersion: 2
+    rgba: 4294967295
+  m_fontColor: {r: 1, g: 1, b: 1, a: 1}
+  m_enableVertexGradient: 0
+  m_colorMode: 3
+  m_fontColorGradient:
+    topLeft: {r: 1, g: 1, b: 1, a: 1}
+    topRight: {r: 1, g: 1, b: 1, a: 1}
+    bottomLeft: {r: 1, g: 1, b: 1, a: 1}
+    bottomRight: {r: 1, g: 1, b: 1, a: 1}
+  m_fontColorGradientPreset: {fileID: 0}
+  m_spriteAsset: {fileID: 0}
+  m_tintAllSprites: 0
+  m_StyleSheet: {fileID: 0}
+  m_TextStyleHashCode: -1183493901
+  m_overrideHtmlColors: 0
+  m_faceColor:
+    serializedVersion: 2
+    rgba: 4294967295
+  m_fontSize: 16
+  m_fontSizeBase: 16
+  m_fontWeight: 400
+  m_enableAutoSizing: 0
+  m_fontSizeMin: 18
+  m_fontSizeMax: 72
+  m_fontStyle: 0
+  m_HorizontalAlignment: 1
+  m_VerticalAlignment: 512
+  m_textAlignment: 65535
+  m_characterSpacing: 0
+  m_wordSpacing: 0
+  m_lineSpacing: 0
+  m_lineSpacingMax: 0
+  m_paragraphSpacing: 0
+  m_charWidthMaxAdj: 0
+  m_enableWordWrapping: 1
+  m_wordWrappingRatios: 0.4
+  m_overflowMode: 0
+  m_linkedTextComponent: {fileID: 0}
+  parentLinkedComponent: {fileID: 0}
+  m_enableKerning: 1
+  m_enableExtraPadding: 0
+  checkPaddingRequired: 0
+  m_isRichText: 1
+  m_parseCtrlCharacters: 1
+  m_isOrthographic: 1
+  m_isCullingEnabled: 0
+  m_horizontalMapping: 0
+  m_verticalMapping: 0
+  m_uvLineOffset: 0
+  m_geometrySortingOrder: 0
+  m_IsTextObjectScaleStatic: 0
+  m_VertexBufferAutoSizeReduction: 0
+  m_useMaxVisibleDescender: 1
+  m_pageToDisplay: 1
+  m_margin: {x: 0, y: 0, z: 0, w: 0}
+  m_isUsingLegacyAnimationComponent: 0
+  m_isVolumetricText: 0
+  m_hasFontAssetChanged: 0
+  m_baseMaterial: {fileID: 0}
+  m_maskOffset: {x: 0, y: 0, z: 0, w: 0}
+--- !u!222 &389036888
+CanvasRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 389036885}
+  m_CullTransparentMesh: 1
 --- !u!1 &511447043
 GameObject:
   m_ObjectHideFlags: 0
@@ -4622,10 +4761,10 @@ RectTransform:
   m_Father: {fileID: 1477070203}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 334.50003, y: 25}
-  m_SizeDelta: {x: -669, y: -50}
+  m_AnchorMin: {x: 1, y: 0.5}
+  m_AnchorMax: {x: 1, y: 0.5}
+  m_AnchoredPosition: {x: -65.49997, y: 25}
+  m_SizeDelta: {x: 131, y: 400}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &511447045
 MonoBehaviour:
@@ -5100,7 +5239,7 @@ GameObject:
   - component: {fileID: 1079636369}
   - component: {fileID: 1079636368}
   m_Layer: 5
-  m_Name: Text (TMP)
+  m_Name: DoubleText
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -5133,7 +5272,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1079636366}
-  m_Enabled: 0
+  m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: f4688fdb7df04437aeb418b961361dc5, type: 3}
   m_Name: 
@@ -5146,7 +5285,9 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: Double
+  m_text: 'Double
+
+    20'
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
@@ -5260,8 +5401,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 1, y: 0}
   m_AnchorMax: {x: 1, y: 0}
-  m_AnchoredPosition: {x: -65.5, y: 25}
-  m_SizeDelta: {x: 131, y: 50}
+  m_AnchoredPosition: {x: -63.754, y: 23.6614}
+  m_SizeDelta: {x: 127.508, y: 52.0271}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1163795019
 MonoBehaviour:
@@ -5506,6 +5647,86 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   towerPrefab: {fileID: 0}
   sprite: {fileID: 0}
+  buttonText: {fileID: 0}
+  price: 0
+  towerName: 
+--- !u!1 &1288163612
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1288163613}
+  - component: {fileID: 1288163615}
+  - component: {fileID: 1288163614}
+  m_Layer: 5
+  m_Name: Panel
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!224 &1288163613
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1288163612}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children:
+  - {fileID: 389036886}
+  m_Father: {fileID: 1477070203}
+  m_RootOrder: 2
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 0.5, y: 1}
+  m_AnchorMax: {x: 0.5, y: 1}
+  m_AnchoredPosition: {x: -65.499985, y: -12.484467}
+  m_SizeDelta: {x: 669, y: 24.9689}
+  m_Pivot: {x: 0.5, y: 0.5}
+--- !u!114 &1288163614
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1288163612}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Material: {fileID: 0}
+  m_Color: {r: 1, g: 1, b: 1, a: 0.392}
+  m_RaycastTarget: 1
+  m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
+  m_Maskable: 1
+  m_OnCullStateChanged:
+    m_PersistentCalls:
+      m_Calls: []
+  m_Sprite: {fileID: 10907, guid: 0000000000000000f000000000000000, type: 0}
+  m_Type: 1
+  m_PreserveAspect: 0
+  m_FillCenter: 1
+  m_FillMethod: 4
+  m_FillAmount: 1
+  m_FillClockwise: 1
+  m_FillOrigin: 0
+  m_UseSpriteMesh: 0
+  m_PixelsPerUnitMultiplier: 1
+--- !u!222 &1288163615
+CanvasRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1288163612}
+  m_CullTransparentMesh: 1
 --- !u!1 &1304999982
 GameObject:
   m_ObjectHideFlags: 0
@@ -5520,7 +5741,7 @@ GameObject:
   - component: {fileID: 1304999984}
   - component: {fileID: 1304999987}
   m_Layer: 5
-  m_Name: BasicButton (2)
+  m_Name: MissileTower
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -5623,8 +5844,8 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 10905, guid: 0000000000000000f000000000000000, type: 0}
-  m_Type: 1
+  m_Sprite: {fileID: 21300000, guid: 419ba2d39b50a8c46bf61f8bb35fa2a3, type: 3}
+  m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
   m_FillMethod: 4
@@ -5653,8 +5874,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 82cca14c8257d0649978660d4f36df2b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  towerPrefab: {fileID: 0}
-  sprite: {fileID: 0}
+  towerPrefab: {fileID: 3854207160036092061, guid: 2bd89f11218d8634caf817539905a1a3, type: 3}
+  sprite: {fileID: 21300000, guid: 419ba2d39b50a8c46bf61f8bb35fa2a3, type: 3}
+  buttonText: {fileID: 1331076504}
+  price: 30
+  towerName: Missile
 --- !u!1 &1331076502
 GameObject:
   m_ObjectHideFlags: 0
@@ -5667,7 +5891,7 @@ GameObject:
   - component: {fileID: 1331076505}
   - component: {fileID: 1331076504}
   m_Layer: 5
-  m_Name: Text (TMP)
+  m_Name: MissileText
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -5713,7 +5937,9 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: '?'
+  m_text: 'Missile
+
+    30'
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
@@ -5722,8 +5948,8 @@ MonoBehaviour:
   m_fontMaterials: []
   m_fontColor32:
     serializedVersion: 2
-    rgba: 4281479730
-  m_fontColor: {r: 0.19607843, g: 0.19607843, b: 0.19607843, a: 1}
+    rgba: 4294967295
+  m_fontColor: {r: 1, g: 1, b: 1, a: 1}
   m_enableVertexGradient: 0
   m_colorMode: 3
   m_fontColorGradient:
@@ -5740,8 +5966,8 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 24
-  m_fontSizeBase: 24
+  m_fontSize: 12
+  m_fontSizeBase: 12
   m_fontWeight: 400
   m_enableAutoSizing: 0
   m_fontSizeMin: 18
@@ -5884,6 +6110,7 @@ RectTransform:
   m_Children:
   - {fileID: 1163795018}
   - {fileID: 511447044}
+  - {fileID: 1288163613}
   m_Father: {fileID: 0}
   m_RootOrder: 7
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -6410,6 +6637,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   towerPrefab: {fileID: 3854207160036092061, guid: e39ef1da5a5e09b4f974af0bc71ae6ff, type: 3}
   sprite: {fileID: 21300000, guid: c43175fb5fd9f7c4eb1cd3f78c60a059, type: 3}
+  buttonText: {fileID: 2113391816}
+  price: 10
+  towerName: Basic
 --- !u!1 &2091128043
 GameObject:
   m_ObjectHideFlags: 0
@@ -6535,7 +6765,7 @@ GameObject:
   - component: {fileID: 2113391817}
   - component: {fileID: 2113391816}
   m_Layer: 5
-  m_Name: Text (TMP)
+  m_Name: BasicText
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -6568,7 +6798,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2113391814}
-  m_Enabled: 0
+  m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: f4688fdb7df04437aeb418b961361dc5, type: 3}
   m_Name: 
@@ -6582,6 +6812,8 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls: []
   m_text: 'Basic
+
+    10
 
 '
   m_isRightToLeft: 0

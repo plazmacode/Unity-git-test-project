@@ -21,11 +21,14 @@ public class Tower : MonoBehaviour
 
     private bool canAttack = true;
     private float attackTimer;
+
     [SerializeField]
     private float attackCooldown;
 
+
     public float ProjectileSpeed { get => projectileSpeed; set => projectileSpeed = value; }
     public int Damage { get => damage; set => damage = value; }
+
     private void Awake()
     {
         // Moved to SerializedField

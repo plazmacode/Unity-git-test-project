@@ -70,7 +70,17 @@ public class TileMouseScript : MonoBehaviour
         {
             if (Input.GetMouseButtonDown(0))
             {
-                PlaceTower();
+                if (GameManager.Instance.Money > GameManager.Instance.ClickedButton.Price)
+                {
+                    // subtract money
+                    GameManager.Instance.Money -= GameManager.Instance.ClickedButton.Price;
+
+                    // increase price by base price
+                    GameManager.Instance.ClickedButton.Price += GameManager.Instance.ClickedButton.BasePrice;
+
+                    // Place Tower sets ClickedButton to null, meaning variables from their will not be accessible anymore
+                    PlaceTower();
+                }
             }
         }
     }

@@ -11,6 +11,9 @@ public class Enemy : MonoBehaviour
     private int originalHealth = 5;
     private int health;
 
+    [SerializeField]
+    private int reward = 1;
+
     public bool IsActive { get; set; }
     private Stack<Node> path;
     public Vector2Int GridPosition { get; set; }
@@ -87,6 +90,7 @@ public class Enemy : MonoBehaviour
         if (health <= 0)
         {
             Release();
+            GameManager.Instance.Money += reward;
         }
         UpdateHealthBar();
     }

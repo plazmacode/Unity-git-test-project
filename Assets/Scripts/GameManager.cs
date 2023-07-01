@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 
 public class GameManager : Singleton<GameManager>
@@ -7,6 +8,27 @@ public class GameManager : Singleton<GameManager>
     public ObjectPool Pool { get; set; }
 
     public TowerButton ClickedButton { get; set; }
+
+    private float money = 0;
+
+    public float Money
+    {
+        get
+        {
+            return money;
+        }
+        set
+        {
+            money = value;
+            moneyText.text = "Money: " + money.ToString();
+        }
+    }
+
+
+    [SerializeField]
+    private TextMeshProUGUI moneyText;
+    public TextMeshProUGUI MoneyText { get => moneyText; set => moneyText = value; }
+
     private void Awake()
     {
         Pool = GetComponent<ObjectPool>();
