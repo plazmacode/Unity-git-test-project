@@ -4356,6 +4356,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b8c2c1de4dd7d524587d512f4de4e311, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  money: 500
   moneyText: {fileID: 389036887}
 --- !u!4 &34154347
 Transform:
@@ -4390,6 +4391,7 @@ MonoBehaviour:
   - {fileID: 6289309918260561943, guid: 11dae81d1145f404f956b9bd270cd6bb, type: 3}
   - {fileID: 5070758901341907142, guid: c2873b4cb7b9a604682f455e1733713d, type: 3}
   - {fileID: 8811210588039537109, guid: 94152aad8ab10da47a6f79f42c914a49, type: 3}
+  - {fileID: 381918703483136858, guid: d3b35b27e94297c4fad1e6ba072f977f, type: 3}
   - {fileID: 381918703483136858, guid: da4a596dd1d8d8d4c9f8f153da767066, type: 3}
 --- !u!1 &104221627
 GameObject:
@@ -5508,11 +5510,11 @@ GameObject:
   m_Component:
   - component: {fileID: 1194341158}
   - component: {fileID: 1194341161}
+  - component: {fileID: 1194341162}
   - component: {fileID: 1194341160}
   - component: {fileID: 1194341159}
-  - component: {fileID: 1194341162}
   m_Layer: 5
-  m_Name: BasicButton (3)
+  m_Name: PlasmaTower
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -5615,8 +5617,8 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 10905, guid: 0000000000000000f000000000000000, type: 0}
-  m_Type: 1
+  m_Sprite: {fileID: 21300000, guid: 1d6c1ddb70dbc0043a9a3b08166ab3d3, type: 3}
+  m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
   m_FillMethod: 4
@@ -5645,11 +5647,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 82cca14c8257d0649978660d4f36df2b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  towerPrefab: {fileID: 0}
-  sprite: {fileID: 0}
-  buttonText: {fileID: 0}
-  price: 0
-  towerName: 
+  towerPrefab: {fileID: 3854207160036092061, guid: 758217b4d72ed854e8440d714c5fb443, type: 3}
+  sprite: {fileID: 21300000, guid: 1d6c1ddb70dbc0043a9a3b08166ab3d3, type: 3}
+  buttonText: {fileID: 1513813191}
+  price: 50
+  towerName: Plasma
 --- !u!1 &1288163612
 GameObject:
   m_ObjectHideFlags: 0
@@ -5737,9 +5739,9 @@ GameObject:
   m_Component:
   - component: {fileID: 1304999983}
   - component: {fileID: 1304999986}
+  - component: {fileID: 1304999987}
   - component: {fileID: 1304999985}
   - component: {fileID: 1304999984}
-  - component: {fileID: 1304999987}
   m_Layer: 5
   m_Name: MissileTower
   m_TagString: Untagged
@@ -6268,7 +6270,7 @@ GameObject:
   - component: {fileID: 1513813192}
   - component: {fileID: 1513813191}
   m_Layer: 5
-  m_Name: Text (TMP)
+  m_Name: PlasmaText
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -6314,7 +6316,9 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: '?'
+  m_text: 'Plasma
+
+    50'
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
@@ -6323,8 +6327,8 @@ MonoBehaviour:
   m_fontMaterials: []
   m_fontColor32:
     serializedVersion: 2
-    rgba: 4281479730
-  m_fontColor: {r: 0.19607843, g: 0.19607843, b: 0.19607843, a: 1}
+    rgba: 4294967295
+  m_fontColor: {r: 1, g: 1, b: 1, a: 1}
   m_enableVertexGradient: 0
   m_colorMode: 3
   m_fontColorGradient:
@@ -6341,8 +6345,8 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 24
-  m_fontSizeBase: 24
+  m_fontSize: 12
+  m_fontSizeBase: 12
   m_fontWeight: 400
   m_enableAutoSizing: 0
   m_fontSizeMin: 18

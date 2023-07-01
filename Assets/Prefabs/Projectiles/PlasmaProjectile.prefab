@@ -11,10 +11,10 @@ GameObject:
   - component: {fileID: 381918703483136856}
   - component: {fileID: 381918703483136857}
   - component: {fileID: 9012164753801605279}
-  - component: {fileID: -4701621913762654555}
-  - component: {fileID: 2487562938212427319}
+  - component: {fileID: 1159083425496496860}
+  - component: {fileID: 5497174222274078112}
   m_Layer: 0
-  m_Name: MissileProjectile
+  m_Name: PlasmaProjectile
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -76,7 +76,7 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 3
-  m_Sprite: {fileID: 21300000, guid: 495cc72c702ee5d4b8e7b487aa48a076, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 6a2df1e6a0b03e8468a1464215a159c4, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -99,7 +99,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6923557b99cc3d14c9681ba0fec8a28a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!61 &-4701621913762654555
+--- !u!61 &1159083425496496860
 BoxCollider2D:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -112,7 +112,7 @@ BoxCollider2D:
   m_IsTrigger: 1
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: 0.0045084953, y: -0.00541009}
+  m_Offset: {x: 0, y: 0}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0.5, y: 0.5}
@@ -123,9 +123,9 @@ BoxCollider2D:
     adaptiveTiling: 0
   m_AutoTiling: 0
   serializedVersion: 2
-  m_Size: {x: 0.12573528, y: 0.3547636}
+  m_Size: {x: 0.16, y: 0.16}
   m_EdgeRadius: 0
---- !u!50 &2487562938212427319
+--- !u!50 &5497174222274078112
 Rigidbody2D:
   serializedVersion: 4
   m_ObjectHideFlags: 0

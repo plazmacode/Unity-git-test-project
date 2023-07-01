@@ -9,6 +9,7 @@ public class GameManager : Singleton<GameManager>
 
     public TowerButton ClickedButton { get; set; }
 
+    [SerializeField]
     private float money = 0;
 
     public float Money
