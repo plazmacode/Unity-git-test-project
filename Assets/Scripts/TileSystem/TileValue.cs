@@ -1,9 +1,9 @@
 using UnityEngine;
 /// <summary>
-/// Tile class contains variables stored on each Tile.
+/// TileValue class contains custom variables stored on each Tile.
 /// Pathfinding related variables stored on Node class
 /// </summary>
-public class Tile
+public class TileValue
 {
     public Node TileNode { get; set; }
 
@@ -20,11 +20,11 @@ public class Tile
     private float tileSize = 0.32f;
 
     /// <summary>
-    /// Set isNode false when sprite is a permanent blocking sprite
+    /// Set hasNode false when sprite is a permanent blocking sprite
     /// </summary>
     /// <param name="position"></param>
     /// <param name="isNode"></param>
-    public Tile(Vector2Int position, bool hasNode = true)
+    public TileValue(Vector2Int position, bool hasNode = true)
     {
         Position = position;
         

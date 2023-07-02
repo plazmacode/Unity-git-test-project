@@ -4299,6 +4299,13 @@ MonoBehaviour:
   tileLimits:
   - {x: -12, y: 7}
   - {x: 14, y: -8}
+  terrainGeneration: 1
+  tiles:
+  - {fileID: 11400000, guid: fec3eede951cfae428e7b26cb72d5a1b, type: 2}
+  - {fileID: 11400000, guid: 786ce409811c85547adc01aef55c9c9d, type: 2}
+  - {fileID: 11400000, guid: 2fd3b81828aaa3c4db48dc4f54539bc3, type: 2}
+  - {fileID: 11400000, guid: 6137e4b8c9b78b148b576ab421f5979b, type: 2}
+  terrainSeed: 523523
   walkableSprites:
   - {fileID: -847686658, guid: 2d02d1f279a2339429f62b4453f6489a, type: 3}
   - {fileID: 677671293, guid: 2d02d1f279a2339429f62b4453f6489a, type: 3}
@@ -4312,7 +4319,7 @@ MonoBehaviour:
   - {fileID: -407591757, guid: 2d02d1f279a2339429f62b4453f6489a, type: 3}
   debugTextPrefab: {fileID: 4783651514758980121, guid: 9dc2ff6781e88f14aac1aea5f7c28162, type: 3}
   debugCanvas: {fileID: 588990888}
-  onlyPathWalkable: 1
+  onlyPathWalkable: 0
   showWalkables: 0
 --- !u!114 &4603025
 MonoBehaviour:
@@ -4356,7 +4363,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b8c2c1de4dd7d524587d512f4de4e311, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  money: 500
+  money: 0
   moneyText: {fileID: 389036887}
 --- !u!4 &34154347
 Transform:

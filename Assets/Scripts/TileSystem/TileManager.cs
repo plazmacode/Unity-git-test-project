@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -17,18 +18,28 @@ public class TileManager : Singleton<TileManager>
 
     // Array for storing Tiles
     // Tile class stores custom data for each Tile in the Tilemap.
-    private Dictionary<Vector2Int, Tile> levelTiles = new Dictionary<Vector2Int, Tile>();
+    private Dictionary<Vector2Int, TileValue> tileValues = new Dictionary<Vector2Int, TileValue>();
 
     /// <summary>
     /// Property for accessing the Tilemap
     /// </summary>
     public Tilemap TileMap { get; set; }
 
+    [SerializeField]
+    private bool terrainGeneration = false;
+
+    [SerializeField]
+    private List<Tile> tiles = new List<Tile>();
+
+    [SerializeField]
+    private int terrainSeed = 0;
+
     /// <summary>
     /// List of Sprites considered walkable
     /// </summary>
     [SerializeField]
     private List<Sprite> walkableSprites = new List<Sprite>();
+
 
     /// <summary>
     /// Prefab used to display tiles pathfinding information on canvas
@@ -72,8 +83,110 @@ public class TileManager : Singleton<TileManager>
 
     public void Start()
     {
+        // UnityEngine Random class' seed can only be set at start.
+        if (terrainSeed != 0)
+        {
+            UnityEngine.Random.InitState(terrainSeed);
+        }
+        // GetComponent is bad performance
         TileMap = GetComponent<Tilemap>();
-        SetupTiles();
+        if (terrainGeneration)
+        {
+            GenereateTerrain();
+        } else
+        {
+            SetupTiles();
+
+        }
+    }
+
+    /// <summary>
+    /// Populate levelTiles Dictionary containing Tile class.
+    /// Tile creation also creates Nodes used in pathfinding.
+    /// </summary>
+    public void SetupTiles()
+    {
+        for (int x = TileLimits[0].x; x <= TileLimits[1].x; x++)
+        {
+            for (int y = TileLimits[0].y; y >= TileLimits[1].y; y--)
+            {
+                Vector2Int levelTilesPosition = new Vector2Int(x, y);
+                Vector3Int tileMapPosition = new Vector3Int(x, y, 0);
+
+                // Skip node creation if only path tiles should have nodes
+                TileValue newTile = new TileValue(levelTilesPosition, !OnlyPathWalkable);
+
+                // Check if current Tiles sprite is a walkableSprite
+                if (walkableSprites.Contains(TileMap.GetSprite(tileMapPosition)))
+                {
+                    // Add Node to path nodes only
+                    // Prevent double creation of nodes with if-statement
+                    if (OnlyPathWalkable)
+                    {
+                        newTile.TileNode = new Node(newTile);
+                    }
+
+                    newTile.IsPath = true;
+
+                    // Update tileNode's IsPath variable
+                    AStar.Instance.AllNodes[levelTilesPosition].IsPath = true;
+                    AStar.Instance.AllNodes[levelTilesPosition].Walkable = true;
+
+                    // Green color overlay for walkable tiles when path used
+                    if (showWalkables && OnlyPathWalkable)
+                    {
+                        ColorTile(levelTilesPosition, new Color32(87, 255, 151, 255));
+                        //TileMap.SetTileFlags(tileMapPosition, TileFlags.LockColor);
+                    }
+                }
+                // Green color overlay for walkable tiles when path not used
+                if (showWalkables && !OnlyPathWalkable)
+                {
+                    ColorTile(levelTilesPosition, new Color32(87, 255, 151, 255));
+                    //TileMap.SetTileFlags(tileMapPosition, TileFlags.LockColor);
+                }
+                tileValues.Add(levelTilesPosition, newTile);
+            }
+        }
+        CameraMovement c = FindObjectOfType<CameraMovement>();
+        c.SetLimits();
+    }
+
+    /// <summary>
+    /// It breaks stuff, don't use?
+    /// </summary>
+    private void ClearMap()
+    {
+        TileMap.ClearAllTiles();
+        tileValues = null;
+    }
+
+    private void GenereateTerrain()
+    {
+        //ClearMap();
+        for (int x = TileLimits[0].x; x <= TileLimits[1].x; x++)
+        {
+            for (int y = TileLimits[0].y; y >= TileLimits[1].y; y--)
+            {
+                Vector2Int levelTilesPosition = new Vector2Int(x, y);
+                Vector3Int tileMapPosition = new Vector3Int(x, y, 0);
+
+                TileValue newTile = new TileValue(levelTilesPosition, !OnlyPathWalkable);
+
+                int random = UnityEngine.Random.Range(0, 2);
+
+                if (random == 0)
+                {
+                    TileMap.SetTile(tileMapPosition, tiles.Find(x => x.name == "dirt"));
+                } else
+                {
+                    TileMap.SetTile(tileMapPosition, tiles.Find(x => x.name == "grass"));
+                }
+
+                tileValues.Add(levelTilesPosition, newTile);
+
+            }
+        }
     }
 
     /// <summary>
@@ -151,65 +264,13 @@ public class TileManager : Singleton<TileManager>
         TileMap.SetTileFlags((Vector3Int)position, TileFlags.None);
         TileMap.SetColor((Vector3Int)position, color);
     }
-
-    /// <summary>
-    /// Populate levelTiles Dictionary containing Tile class.
-    /// Tile creation also creates Nodes used in pathfinding.
-    /// </summary>
-    public void SetupTiles()
-    {
-        for (int x = TileLimits[0].x; x <= TileLimits[1].x; x++)
-        {
-            for (int y = TileLimits[0].y; y >= TileLimits[1].y; y--)
-            {
-                Vector2Int levelTilesPosition = new Vector2Int(x, y);
-                Vector3Int tileMapPosition = new Vector3Int(x, y, 0);
-
-                // Skip node creation if only path tiles should have nodes
-                Tile newTile = new Tile(levelTilesPosition, !OnlyPathWalkable);
-
-                // Check if current Tiles sprite is a walkableSprite
-                if (walkableSprites.Contains(TileMap.GetSprite(tileMapPosition)))
-                {
-                    // Add Node to path nodes only
-                    // Prevent double creation of nodes with if-statement
-                    if (OnlyPathWalkable)
-                    {
-                        newTile.TileNode = new Node(newTile);
-                    }
-
-                    newTile.IsPath = true;
-
-                    // Update tileNode's IsPath variable
-                    AStar.Instance.AllNodes[levelTilesPosition].IsPath = true;
-                    AStar.Instance.AllNodes[levelTilesPosition].Walkable = true;
-
-                    // Green color overlay for walkable tiles when path used
-                    if (showWalkables && OnlyPathWalkable)
-                    {
-                        ColorTile(levelTilesPosition, new Color32(87, 255, 151, 255));
-                        //TileMap.SetTileFlags(tileMapPosition, TileFlags.LockColor);
-                    }
-                }
-                // Green color overlay for walkable tiles when path not used
-                if (showWalkables && !OnlyPathWalkable)
-                {
-                    ColorTile(levelTilesPosition, new Color32(87, 255, 151, 255));
-                    //TileMap.SetTileFlags(tileMapPosition, TileFlags.LockColor);
-                }
-                levelTiles.Add(levelTilesPosition, newTile);
-            }
-        }
-        CameraMovement c = FindObjectOfType<CameraMovement>();
-        c.SetLimits();
-    }
     
     /// <summary>
     /// Check if tile is inside limits of play area.
     /// </summary>
     /// <param name="tile"></param>
     /// <returns></returns>
-    public bool TileInsideArea(Tile tile)
+    public bool TileInsideArea(TileValue tile)
     {
         if (tile.Position.x < tileLimits[0].x || tile.Position.x > tileLimits[1].x)
             return false;
@@ -242,9 +303,9 @@ public class TileManager : Singleton<TileManager>
 
 
 
-    public Tile GetTile(Vector2Int position)
+    public TileValue GetTile(Vector2Int position)
     {
-        if (levelTiles.TryGetValue(position, out Tile tile))
+        if (tileValues.TryGetValue(position, out TileValue tile))
         {
             return tile;
         }
@@ -252,11 +313,11 @@ public class TileManager : Singleton<TileManager>
         return null; // Or throw an exception if desired
     }
 
-    public void SetTile(Vector2Int position, Tile tile)
+    public void SetTile(Vector2Int position, TileValue tile)
     {
-        if (levelTiles.ContainsKey(position))
+        if (tileValues.ContainsKey(position))
         {
-            levelTiles[position] = tile;
+            tileValues[position] = tile;
         }
     }
 }

@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class Node
 {
-    public Tile Tile { get; set; }
+    public TileValue Tile { get; set; }
     public int G { get; set; }
     public int H { get; set; }
     public int F { get; set; }
@@ -18,7 +18,7 @@ public class Node
 
     public bool IsPath = false;
 
-    public Node (Tile tileRef)
+    public Node (TileValue tileRef)
     {
         Tile = tileRef;
         Position = Tile.Position;

@@ -8,8 +8,8 @@ public class TileMouseScript : MonoBehaviour
 {
     // Start is called before the first frame update
     private Tilemap tilemap;
-    private Tile currentTile;
-    private Tile previousTile;
+    private TileValue currentTile;
+    private TileValue previousTile;
 
     void Start()
     {
@@ -20,7 +20,7 @@ public class TileMouseScript : MonoBehaviour
     void Update()
     {
         Vector2Int mousePosition = GetMousePosition();
-        Tile tile;
+        TileValue tile;
         if (TileManager.Instance.CellPositionInsideArea(mousePosition))
         {
             tile = TileManager.Instance.GetTile(mousePosition);
@@ -58,7 +58,7 @@ public class TileMouseScript : MonoBehaviour
             //DebugText();
         }
     }
-    private void MouseOverTile(Tile tile)
+    private void MouseOverTile(TileValue tile)
     {
         //if (!tilemap.GetSprite((Vector3Int)tile.Position))
         //{
