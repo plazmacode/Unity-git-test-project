@@ -32,6 +32,9 @@ public class Hover : Singleton<Hover>
         spriteRenderer.enabled = true;
     }
 
+    /// <summary>
+    /// Disables the Hover classes spriteRenderer, which is used to display the selected tower at the mouse position.
+    /// </summary>
     public void Deactivate()
     {
         spriteRenderer.enabled = false;

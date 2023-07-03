@@ -126,8 +126,6 @@ public class TileManager : Singleton<TileManager>
                         newTile.TileNode = new Node(newTile);
                     }
 
-                    newTile.IsPath = true;
-
                     // Update tileNode's IsPath variable
                     AStar.Instance.AllNodes[levelTilesPosition].IsPath = true;
                     AStar.Instance.AllNodes[levelTilesPosition].Walkable = true;

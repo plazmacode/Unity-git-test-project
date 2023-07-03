@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -6,6 +7,9 @@ public class Projectile : MonoBehaviour
 {
     private Enemy target;
     private Tower parent;
+
+    [SerializeField]
+    private bool IsRotating;
 
     public void Initizialize(Tower parent)
     {
@@ -17,6 +21,16 @@ public class Projectile : MonoBehaviour
     void Update()
     {
         MoveToTarget();
+        Rotate();
+    }
+
+    private void Rotate()
+    {
+        Vector2 direction = target.transform.position - transform.position;
+
+        float angle = Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg;
+
+        transform.rotation = Quaternion.AngleAxis(angle - 90, Vector3.forward);
     }
 
     private void MoveToTarget()

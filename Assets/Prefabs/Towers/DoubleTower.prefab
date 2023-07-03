@@ -288,8 +288,8 @@ MonoBehaviour:
   turret: {fileID: 3854207159208040478}
   projectileType: BulletProjectile
   projectileSpeed: 8
-  damage: 10
-  attackCooldown: 0.4
+  damage: 4
+  attackCooldown: 0.2
 --- !u!50 &1533300455
 Rigidbody2D:
   serializedVersion: 4

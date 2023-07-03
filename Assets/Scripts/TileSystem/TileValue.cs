@@ -16,7 +16,6 @@ public class TileValue
     /// World position, pixel precise screen position.
     /// </summary>
     public Vector3 WorldPosition { get; set; }
-    public bool IsPath { get; set; } = false;
     private float tileSize = 0.32f;
 
     /// <summary>

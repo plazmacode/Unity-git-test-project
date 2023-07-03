@@ -287,7 +287,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   turret: {fileID: 3854207159208040478}
   projectileType: PlasmaProjectile
-  projectileSpeed: 10
+  projectileSpeed: 15
   damage: 30
   attackCooldown: 1
 --- !u!50 &1533300455

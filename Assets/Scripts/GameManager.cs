@@ -33,6 +33,9 @@ public class GameManager : Singleton<GameManager>
     private void Awake()
     {
         Pool = GetComponent<ObjectPool>();
+
+        // Updates money text incase start money is not 0.
+        moneyText.text = "Money: " + money.ToString();
     }
     private void Update()
     {
