@@ -16,7 +16,7 @@ public class Node
     /// </summary>
     public bool Walkable = true;
 
-    public bool IsPath = false;
+    public bool IsPath { get; set; } = false;
 
     public Node (TileValue tileRef)
     {

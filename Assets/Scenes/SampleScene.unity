@@ -4363,7 +4363,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b8c2c1de4dd7d524587d512f4de4e311, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  money: 0
+  money: 500
   moneyText: {fileID: 389036887}
 --- !u!4 &34154347
 Transform:
