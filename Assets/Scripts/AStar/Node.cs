@@ -14,15 +14,25 @@ public class Node
     /// <summary>
     /// Currently true because nodes are only created when a tile is walkable
     /// </summary>
-    public bool Walkable = true;
+    public bool Walkable { get; private set; } = true;
 
-    public bool IsPath { get; set; } = false;
+    public bool IsPath { get; private set; } = false;
 
     public Node (TileValue tileRef)
     {
         Tile = tileRef;
         Position = Tile.Position;
         AStar.Instance.AllNodes.Add(Position, this);
+    }
+
+    public void SetPath(bool value)
+    {
+        AStar.Instance.AllNodes[Position].IsPath = value;
+    }
+
+    public void SetWalkable(bool value)
+    {
+        AStar.Instance.AllNodes[Position].Walkable = value;
     }
 
 }

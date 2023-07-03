@@ -64,6 +64,8 @@ public class TileManager : Singleton<TileManager>
         }
     }
 
+    public Canvas DebugCanvas { get => debugCanvas; set => debugCanvas = value; }
+
 
     // bool to determine if walkables should be colored.
     [SerializeField]
@@ -98,6 +100,7 @@ public class TileManager : Singleton<TileManager>
             SetupTiles();
 
         }
+        GameManager.Instance.SetupTowers();
     }
 
     /// <summary>
@@ -127,8 +130,8 @@ public class TileManager : Singleton<TileManager>
                     }
 
                     // Update tileNode's IsPath variable
-                    AStar.Instance.AllNodes[levelTilesPosition].IsPath = true;
-                    AStar.Instance.AllNodes[levelTilesPosition].Walkable = true;
+                    newTile.TileNode.SetPath(true);
+                    newTile.TileNode.SetWalkable(true);
 
                     // Green color overlay for walkable tiles when path used
                     if (showWalkables && OnlyPathWalkable)
@@ -222,23 +225,31 @@ public class TileManager : Singleton<TileManager>
         ColorTile(start, startColor);
         ColorTile(goal, goalColor);
 
-        // Destroy DebugCanvas children
-        for (int i = debugCanvas.transform.childCount - 1; i >= 0; i--)
-        {
-            Transform child = debugCanvas.transform.GetChild(i);
-            Destroy(child.gameObject);
-        }
+        ClearDebugCanvas();
 
         // Add debugPrefab of Astar neighbor values to canvas
         foreach (KeyValuePair<Vector2Int, Node> node in allNodes)
         {
             if (node.Value.Parent != null)
             {
-                GameObject go = Instantiate(debugTextPrefab, debugCanvas.transform);
+                GameObject go = Instantiate(debugTextPrefab, DebugCanvas.transform);
                 go.transform.position = TileMap.CellToWorld((Vector3Int)node.Key);
                 debugObjects.Add(go);
                 GenerateDebugText(node.Value, go.GetComponent<DebugText>());
             }
+        }
+    }
+
+    public void ClearDebugCanvas()
+    {
+        // Destroy DebugCanvas children
+        for (int i = DebugCanvas.transform.childCount - 1; i >= 0; i--)
+        {
+            Transform child = DebugCanvas.transform.GetChild(i);
+            Destroy(child.gameObject);
+
+            // Removed coloring on tile (error/buggy)
+            ColorTile((Vector2Int)TileMap.WorldToCell(child.position), Color.white);
         }
     }
 

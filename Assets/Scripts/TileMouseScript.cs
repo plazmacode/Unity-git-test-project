@@ -49,7 +49,7 @@ public class TileMouseScript : MonoBehaviour
         // --------- MOUSE OVER NEW TILE --------- 
         if (tile != previousTile && tile != null)
         {
-            TileManager.Instance.ColorTile(tile.Position, Color.white);
+            //TileManager.Instance.ColorTile(tile.Position, Color.white);
             previousTile = tile;
         }
 
@@ -59,7 +59,6 @@ public class TileMouseScript : MonoBehaviour
         }
     }
 
-
     /// <summary>
     /// Handles buying towers when they are placed on a tile.
     /// </summary>
@@ -67,11 +66,17 @@ public class TileMouseScript : MonoBehaviour
     private void MouseOverTile(TileValue tile)
     {
         // If mouse not over UI and Tower button has been selected.
-        if (!EventSystem.current.IsPointerOverGameObject() && GameManager.Instance.ClickedButton != null && tile != null)
+        if (Input.GetMouseButtonDown(0))
         {
-            if (Input.GetMouseButtonDown(0))
+            // The DebugCanvas blocks our tower placement
+            TileManager.Instance.ClearDebugCanvas();
+
+            // Checks if mouse over canvas, towers is being placed(a button is clicked) and if tile is not null.
+            if (!EventSystem.current.IsPointerOverGameObject() && GameManager.Instance.ClickedButton != null && tile != null)
             {
-                if (GameManager.Instance.Money > GameManager.Instance.ClickedButton.Price)
+                // Check price and if their already is a tower.
+                // Alternatively add an BlacementBlocked bool for more cases of a blocked tile in case of tower placement
+                if (GameManager.Instance.Money > GameManager.Instance.ClickedButton.Price && !currentTile.HasTower)
                 {
                     // subtract money
                     GameManager.Instance.Money -= GameManager.Instance.ClickedButton.Price;
@@ -81,6 +86,14 @@ public class TileMouseScript : MonoBehaviour
 
                     // Place Tower sets ClickedButton to null, meaning variables from their will not be accessible anymore
                     PlaceTower();
+
+                    currentTile.HasTower = true;
+                    currentTile.TileNode.SetWalkable(false); // Make enemies not walk over this tile.
+                    // Implementation of this can be done differently later.
+
+                    // Implementation 1: Use a HasTower bool with the AStar instead of only a Walkable bool
+
+                    // Implementation 2: Set Walkable automatically when HasTower property is changed.
                 }
             }
         }
@@ -121,7 +134,11 @@ public class TileMouseScript : MonoBehaviour
         GameObject tower = Instantiate(GameManager.Instance.ClickedButton.TowerPrefab, currentTile.WorldPosition, Quaternion.identity);
 
         // Update layer
-        tower.GetComponent<Tower>().SetLayers(currentTile.Position.y);
+        //tower.GetComponent<Tower>().SetLayers(currentTile.Position.y); // WRONG gives negative layers
+
+        // Use Tile limits[1].y is the lowest tile position value.
+        // Its already negativ, so minus minus to get a positive variable.
+        tower.GetComponent<Tower>().SetLayers(currentTile.Position.y -TileManager.Instance.TileLimits[1].y);
 
         // Set parent to tileMap GameObject, the object this script is on.
         tower.transform.SetParent(transform);

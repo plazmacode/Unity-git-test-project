@@ -18,6 +18,8 @@ public class TileValue
     public Vector3 WorldPosition { get; set; }
     private float tileSize = 0.32f;
 
+    public bool HasTower { get; set; } = false;
+
     /// <summary>
     /// Set hasNode false when sprite is a permanent blocking sprite
     /// </summary>

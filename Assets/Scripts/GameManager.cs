@@ -9,6 +9,8 @@ public class GameManager : Singleton<GameManager>
 
     public TowerButton ClickedButton { get; set; }
 
+    public List<Tower> Towers { get; set; } = new List<Tower>();
+
     [SerializeField]
     private float money = 0;
 
@@ -24,7 +26,22 @@ public class GameManager : Singleton<GameManager>
             moneyText.text = "Money: " + money.ToString();
         }
     }
-
+    
+    /// <summary>
+    /// Adds pre-placed towers to game. 
+    /// Helps updating path finding nodes and Towers list. <br></br>
+    /// Must be called after Tilemap is made.
+    /// </summary>
+    public void SetupTowers()
+    {
+        for (int i = 0; i < Towers.Count; i++)
+        {
+            Vector2Int cellPosition = (Vector2Int)TileManager.Instance.TileMap.WorldToCell(Towers[i].gameObject.transform.position);
+            TileValue tileValue = TileManager.Instance.GetTile(cellPosition);
+            tileValue.HasTower = true;
+            tileValue.TileNode.SetWalkable(false);
+        }
+    }
 
     [SerializeField]
     private TextMeshProUGUI moneyText;
@@ -44,6 +61,7 @@ public class GameManager : Singleton<GameManager>
 
     public void StartWave()
     {
+        LevelManager.Instance.GeneratePath(false);
         StartCoroutine(SpawnWave());
     }
 

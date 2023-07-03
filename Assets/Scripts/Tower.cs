@@ -7,7 +7,7 @@ public class Tower : MonoBehaviour
     public Enemy Target { get; private set; }
 
     private Queue<Enemy> enemies = new Queue<Enemy>();
-    
+
     [SerializeField]
     private GameObject turret;
 
@@ -31,8 +31,7 @@ public class Tower : MonoBehaviour
 
     private void Awake()
     {
-        // Moved to SerializedField
-        //turret = GameObject.Find("Turret");
+        GameManager.Instance.Towers.Add(this);
     }
 
     private void Update()
@@ -93,6 +92,7 @@ public class Tower : MonoBehaviour
     /// </summary>
     public void SetLayers(int layer)
     {
+        // BAD Performance, move GetComponent to start or use in-editor fields
         GetComponent<SpriteRenderer>().sortingOrder = layer;
         turret.GetComponent<SpriteRenderer>().sortingOrder = layer + 1;
     }

@@ -31,6 +31,7 @@ public class AStar : Singleton<AStar>
     private void Initialize()
     {
         current = GetNode(startPosition);
+        path = null;
 
         openList = new HashSet<Node>();
         closedList = new HashSet<Node>();
@@ -39,6 +40,9 @@ public class AStar : Singleton<AStar>
 
     public Stack<Node> GetPath(Vector2Int start, Vector2Int goal, bool colorPath = false)
     {
+        // Clear path variable so AStar can be run again
+        // Makes it possible to update path based on nodes that have become blocked
+
         startPosition = start;
         goalPosition = goal;
 
@@ -47,22 +51,24 @@ public class AStar : Singleton<AStar>
             Initialize();
         }
         int i = 0;
-        while (openList.Count > 0 && path == null)
+        while (openList.Count > 0 && path == null && i < 500)
         {
             List<Node> neighbors = FindNeighbors(current.Position);
 
             ExamineNeighbors(neighbors, current);
 
             UpdateCurrentNode(ref current);
-
             path = GeneratePath(current);
             i++;
         }
+
+        current = null;
 
         if (colorPath)
         {
             TileManager.Instance.ColorPathfinding(openList, closedList, AllNodes, startPosition, goalPosition, path);
         }
+
         return path;
     }
 
@@ -82,7 +88,12 @@ public class AStar : Singleton<AStar>
                     if (neighborPosition != startPosition && n != null)
                     {
                         Node neighbor = GetNode(neighborPosition);
-                        neighbors.Add(neighbor);
+
+                        // Only add walkable neighbors to returned list.
+                        if (neighbor.Walkable)
+                        {
+                            neighbors.Add(neighbor);
+                        }
                     }
                 }
             }
@@ -162,6 +173,7 @@ public class AStar : Singleton<AStar>
     /// </summary>
     private void GetBlockedNodes()
     {
+        blockedNodePositions = new HashSet<Vector2Int>();
         foreach (Node node in AllNodes.Values)
         {
             // Add nodes that are not walkable
@@ -181,7 +193,7 @@ public class AStar : Singleton<AStar>
             }
 
             // Assumes nodes are only created if they are walkable.
-            // Used because instead of above check.
+            // Used because of above check.
             if (TileManager.Instance.OnlyPathWalkable)
             {
                 // Get a list of the 8 positions surrounding this node
@@ -205,10 +217,10 @@ public class AStar : Singleton<AStar>
 
     private bool ConnectedDiagonally(Node currentNode, Node neighbor)
     {
-        Vector2Int direct = currentNode.Position - neighbor.Position;
+        Vector2Int direction = neighbor.Position - currentNode.Position;
 
-        Vector2Int first = new Vector2Int(current.Position.x + (direct.x * -1), current.Position.y);
-        Vector2Int second = new Vector2Int(current.Position.x, current.Position.y + (direct.y * -1));
+        Vector2Int first = new Vector2Int(currentNode.Position.x + direction.x, currentNode.Position.y);
+        Vector2Int second = new Vector2Int(currentNode.Position.x, currentNode.Position.y + direction.y);
 
         GetBlockedNodes();
 
