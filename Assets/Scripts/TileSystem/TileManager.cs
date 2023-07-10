@@ -204,6 +204,8 @@ public class TileManager : Singleton<TileManager>
     /// <param name="path"></param>
     public void ColorPathfinding(HashSet<Node> openList, HashSet<Node> closedList, Dictionary<Vector2Int, Node> allNodes, Vector2Int start, Vector2Int goal, Stack<Node> path = null)
     {
+        ClearDebugCanvas();
+
         foreach (Node node in openList)
         {
             ColorTile(node.Position, openColor);
@@ -228,7 +230,6 @@ public class TileManager : Singleton<TileManager>
         ColorTile(start, startColor);
         ColorTile(goal, goalColor);
 
-        ClearDebugCanvas();
 
         // Add debugPrefab of Astar neighbor values to canvas
         foreach (KeyValuePair<Vector2Int, Node> node in allNodes)
@@ -249,11 +250,17 @@ public class TileManager : Singleton<TileManager>
         for (int i = DebugCanvas.transform.childCount - 1; i >= 0; i--)
         {
             Transform child = DebugCanvas.transform.GetChild(i);
-            Destroy(child.gameObject);
 
-            // Removed coloring on tile (error/buggy)
-            ColorTile((Vector2Int)TileMap.WorldToCell(child.position), Color.white);
+            Destroy(child.gameObject);
         }
+
+        foreach (Node node in AStar.Instance.AllNodes.Values)
+        {
+            // Removed coloring on tile (error/buggy)
+            ColorTile(node.Position, Color.white);
+        }
+
+        debugObjects.Clear();
     }
 
     /// <summary>

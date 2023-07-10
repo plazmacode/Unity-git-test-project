@@ -142,6 +142,7 @@ public class GameManager : Singleton<GameManager>
             {
                 DeselectTower();
             }
+            TileManager.Instance.ClearDebugCanvas();
         }
     }
 
@@ -154,6 +155,7 @@ public class GameManager : Singleton<GameManager>
             {
                 DeselectTower();
             }
+            TileManager.Instance.ClearDebugCanvas();
         }
     }
 }

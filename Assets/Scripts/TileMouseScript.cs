@@ -1,4 +1,4 @@
-using System.Collections;
+﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.EventSystems;
@@ -108,8 +108,8 @@ public class TileMouseScript : MonoBehaviour
                     tile.MyTower = GameManager.Instance.MovedTower;
                     GameManager.Instance.MovedTower = null;
                 }
-
-                if (Input.GetMouseButtonDown(0) && Input.GetKey(KeyCode.LeftShift) && tile.MyTower != null)
+                //How do I double click inside this giant if-statement 💀
+                if (Input.GetKey(KeyCode.LeftShift) && tile.MyTower != null)
                 {
                     Debug.Log("Moving Tower. Click tile to place.");
                     GameManager.Instance.MovedTower = tile.MyTower;

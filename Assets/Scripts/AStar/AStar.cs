@@ -36,6 +36,12 @@ public class AStar : Singleton<AStar>
         openList = new HashSet<Node>();
         closedList = new HashSet<Node>();
         openList.Add(current);
+
+
+        foreach (Node node in AllNodes.Values)
+        {
+            node.Parent = null;
+        }
     }
 
     public Stack<Node> GetPath(Vector2Int start, Vector2Int goal, bool colorPath = false)
@@ -62,12 +68,12 @@ public class AStar : Singleton<AStar>
             i++;
         }
 
-        current = null;
 
         if (colorPath)
         {
             TileManager.Instance.ColorPathfinding(openList, closedList, AllNodes, startPosition, goalPosition, path);
         }
+        current = null;
 
         return path;
     }
