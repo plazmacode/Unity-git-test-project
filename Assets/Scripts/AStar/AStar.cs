@@ -57,6 +57,7 @@ public class AStar : Singleton<AStar>
         Stack<Node> pathToGoal = GetPath(waypoint1, goal);
 
         // Add stack 2 to stack 1
+        // Can give null refererence? Maybe if waypoint is on start or goal?
         for (int i = 0; i < pathToWaypoint.Count; i++)
         {
             pathToGoal.Push(pathToWaypoint.Pop());

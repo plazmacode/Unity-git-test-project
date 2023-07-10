@@ -4297,8 +4297,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   tileLimits:
-  - {x: -12, y: 7}
-  - {x: 14, y: -8}
+  - {x: -12, y: 5}
+  - {x: 8, y: -6}
   terrainGeneration: 1
   tiles:
   - {fileID: 11400000, guid: fec3eede951cfae428e7b26cb72d5a1b, type: 2}
