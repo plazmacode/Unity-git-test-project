@@ -104,6 +104,25 @@ public class TileManager : Singleton<TileManager>
     }
 
     /// <summary>
+    /// New path color method. Simpler
+    /// </summary>
+    public void ColorPath(Stack<Node> path, List<Vector2Int> waypoints)
+    {
+        ClearDebugCanvas();
+        Node[] array = path.ToArray();
+        for (int i = 0; i < array.Length; i++)
+        {
+            ColorTile(array[i].Position, Color.black);
+        }
+
+        for (int i = 0; i < waypoints.Count; i++)
+        {
+            ColorTile(waypoints[i], Color.red);
+        }
+    }
+
+
+    /// <summary>
     /// Populate levelTiles Dictionary containing Tile class.
     /// Tile creation also creates Nodes used in pathfinding.
     /// </summary>
@@ -256,7 +275,6 @@ public class TileManager : Singleton<TileManager>
 
         foreach (Node node in AStar.Instance.AllNodes.Values)
         {
-            // Removed coloring on tile (error/buggy)
             ColorTile(node.Position, Color.white);
         }
 

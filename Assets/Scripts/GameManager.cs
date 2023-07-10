@@ -66,8 +66,17 @@ public class GameManager : Singleton<GameManager>
 
     public void StartWave()
     {
-        LevelManager.Instance.GeneratePath(false);
+        //LevelManager.Instance.GeneratePath(false);
+        if (LevelManager.Instance.Path == null)
+        {
+            CreateWaypoints();
+        }
         StartCoroutine(SpawnWave());
+    }
+
+    public void CreateWaypoints()
+    {
+        LevelManager.Instance.CalculateWaypoints(1);
     }
 
     public void SelectTower(Tower tower)

@@ -44,6 +44,44 @@ public class AStar : Singleton<AStar>
         }
     }
 
+    public Stack<Node> GetWaypointsPath(int waypointAmount, out List<Vector2Int> waypoints, Vector2Int start, Vector2Int goal)
+    {
+        waypoints = new List<Vector2Int>();
+
+        Vector2Int waypoint1 = GetRandomNodePosition();
+
+        // Switch start and goal parameter because path is reversed
+        // Path is reversed because of the way it is pushed into path 2.
+        Stack<Node> pathToWaypoint = GetPath(waypoint1, start);
+
+        Stack<Node> pathToGoal = GetPath(waypoint1, goal);
+
+        // Add stack 2 to stack 1
+        for (int i = 0; i < pathToWaypoint.Count; i++)
+        {
+            pathToGoal.Push(pathToWaypoint.Pop());
+        }
+
+        path = pathToGoal;
+
+        waypoints.Add(start);
+        waypoints.Add(waypoint1);
+        waypoints.Add(goal);
+
+        return path;
+    }
+
+    public Vector2Int GetRandomNodePosition()
+    {
+        // UnityEngine.Random uses same seed as terrain. See InitState()
+        // Terrain currently has a set seed in the editor.
+        // Random waypoints are always the same with this implementation.
+        return AllNodes
+            .ElementAt(UnityEngine.Random.Range(0, AllNodes.Count))
+            .Value.Position;
+    }
+
+
     public Stack<Node> GetPath(Vector2Int start, Vector2Int goal, bool colorPath = false)
     {
         // Clear path variable so AStar can be run again
