@@ -65,17 +65,18 @@ public class TileMouseScript : MonoBehaviour
     /// <param name="tile"></param>
     private void MouseOverTile(TileValue tile)
     {
-        // If mouse not over UI and Tower button has been selected.
-        if (Input.GetMouseButtonDown(0) && tile != null)
+        // If Left mouse down, tile is not null, mouse is not over a UI GameObject
+        if (Input.GetMouseButtonDown(0) && tile != null && !EventSystem.current.IsPointerOverGameObject())
         {
             // The DebugCanvas blocks our tower placement
             TileManager.Instance.ClearDebugCanvas();
 
-            // Checks if mouse over canvas, towers is being placed(a button is clicked) and if tile is not null.
-            if (!EventSystem.current.IsPointerOverGameObject() && GameManager.Instance.ClickedButton != null)
+            // ---------- FIRST IF-STATEMENT FOR TOWER BUY/PLACEMENT------------
+            // Checks if tower is being placed(a button is clicked)
+            if (GameManager.Instance.ClickedButton != null)
             {
                 // Check price and if their already is a tower.
-                // Alternatively add an BlacementBlocked bool for more cases of a blocked tile in case of tower placement
+                // Alternatively add a PlacementBlocked bool for more cases of a blocked tile in case of tower placement
                 if (GameManager.Instance.Money > GameManager.Instance.ClickedButton.Price && !currentTile.HasTower)
                 {
                     // subtract money
@@ -95,18 +96,37 @@ public class TileMouseScript : MonoBehaviour
 
                     // Implementation 2: Set Walkable automatically when HasTower property is changed.
                 }
-            } else if (!EventSystem.current.IsPointerOverGameObject() && GameManager.Instance.ClickedButton == null)
+                // Tower selection, if tower-button not clicked / not placing a tower.
+            }
+            else if (GameManager.Instance.ClickedButton == null)
             {
+                if (GameManager.Instance.MovedTower != null)
+                {
+                    Debug.Log("Moving Tower to new Position.");
+                    GameManager.Instance.MovedTower.gameObject.transform.position = tile.WorldPosition;
+                    tile.HasTower = true;
+                    tile.MyTower = GameManager.Instance.MovedTower;
+                    GameManager.Instance.MovedTower = null;
+                }
+
+                if (Input.GetMouseButtonDown(0) && Input.GetKey(KeyCode.LeftShift) && tile.MyTower != null)
+                {
+                    Debug.Log("Moving Tower. Click tile to place.");
+                    GameManager.Instance.MovedTower = tile.MyTower;
+                    tile.MyTower = null;
+                    tile.HasTower = false;
+                }
+
                 if (tile.MyTower != null)
                 {
                     GameManager.Instance.SelectTower(tile.MyTower);
-                } else
+                }
+                else
                 {
                     GameManager.Instance.DeselectTower();
                 }
             }
         }
-
     }
 
     /// <summary>

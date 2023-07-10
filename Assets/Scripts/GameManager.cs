@@ -13,6 +13,8 @@ public class GameManager : Singleton<GameManager>
 
     private Tower selectedTower;
 
+    public Tower MovedTower { get; set; }
+
     [SerializeField]
     private float money = 0;
 
