@@ -290,6 +290,7 @@ MonoBehaviour:
   projectileSpeed: 15
   damage: 30
   attackCooldown: 1
+  rangeSpriteRenderer: {fileID: 470283665}
 --- !u!50 &1533300455
 Rigidbody2D:
   serializedVersion: 4

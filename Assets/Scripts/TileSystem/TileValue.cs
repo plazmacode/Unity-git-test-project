@@ -20,6 +20,8 @@ public class TileValue
 
     public bool HasTower { get; set; } = false;
 
+    public Tower MyTower { get; set; }
+
     /// <summary>
     /// Set hasNode false when sprite is a permanent blocking sprite
     /// </summary>

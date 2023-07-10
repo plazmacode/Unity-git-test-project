@@ -4305,7 +4305,7 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 786ce409811c85547adc01aef55c9c9d, type: 2}
   - {fileID: 11400000, guid: 2fd3b81828aaa3c4db48dc4f54539bc3, type: 2}
   - {fileID: 11400000, guid: 6137e4b8c9b78b148b576ab421f5979b, type: 2}
-  terrainSeed: 523523
+  terrainSeed: 1234
   walkableSprites:
   - {fileID: -847686658, guid: 2d02d1f279a2339429f62b4453f6489a, type: 3}
   - {fileID: 677671293, guid: 2d02d1f279a2339429f62b4453f6489a, type: 3}
@@ -5410,7 +5410,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 1, y: 0}
   m_AnchorMax: {x: 1, y: 0}
-  m_AnchoredPosition: {x: -63.754, y: 23.6614}
+  m_AnchoredPosition: {x: -63.75403, y: 23.661377}
   m_SizeDelta: {x: 127.508, y: 52.0271}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1163795019
@@ -5695,7 +5695,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 1}
   m_AnchorMax: {x: 0.5, y: 1}
-  m_AnchoredPosition: {x: -65.499985, y: -12.484467}
+  m_AnchoredPosition: {x: -65.499985, y: -12.484497}
   m_SizeDelta: {x: 669, y: 24.9689}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1288163614
@@ -6910,6 +6910,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: -2277243603071767641, guid: e39ef1da5a5e09b4f974af0bc71ae6ff, type: 3}
+      propertyPath: projectileSpeed
+      value: 8
+      objectReference: {fileID: 0}
     - target: {fileID: 3854207160036092059, guid: e39ef1da5a5e09b4f974af0bc71ae6ff, type: 3}
       propertyPath: m_RootOrder
       value: 8

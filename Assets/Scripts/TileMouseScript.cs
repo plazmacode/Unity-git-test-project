@@ -66,13 +66,13 @@ public class TileMouseScript : MonoBehaviour
     private void MouseOverTile(TileValue tile)
     {
         // If mouse not over UI and Tower button has been selected.
-        if (Input.GetMouseButtonDown(0))
+        if (Input.GetMouseButtonDown(0) && tile != null)
         {
             // The DebugCanvas blocks our tower placement
             TileManager.Instance.ClearDebugCanvas();
 
             // Checks if mouse over canvas, towers is being placed(a button is clicked) and if tile is not null.
-            if (!EventSystem.current.IsPointerOverGameObject() && GameManager.Instance.ClickedButton != null && tile != null)
+            if (!EventSystem.current.IsPointerOverGameObject() && GameManager.Instance.ClickedButton != null)
             {
                 // Check price and if their already is a tower.
                 // Alternatively add an BlacementBlocked bool for more cases of a blocked tile in case of tower placement
@@ -85,7 +85,7 @@ public class TileMouseScript : MonoBehaviour
                     GameManager.Instance.ClickedButton.Price += GameManager.Instance.ClickedButton.BasePrice;
 
                     // Place Tower sets ClickedButton to null, meaning variables from their will not be accessible anymore
-                    PlaceTower();
+                    PlaceTower(tile);
 
                     currentTile.HasTower = true;
                     currentTile.TileNode.SetWalkable(false); // Make enemies not walk over this tile.
@@ -95,8 +95,18 @@ public class TileMouseScript : MonoBehaviour
 
                     // Implementation 2: Set Walkable automatically when HasTower property is changed.
                 }
+            } else if (!EventSystem.current.IsPointerOverGameObject() && GameManager.Instance.ClickedButton == null)
+            {
+                if (tile.MyTower != null)
+                {
+                    GameManager.Instance.SelectTower(tile.MyTower);
+                } else
+                {
+                    GameManager.Instance.DeselectTower();
+                }
             }
         }
+
     }
 
     /// <summary>
@@ -128,10 +138,12 @@ public class TileMouseScript : MonoBehaviour
     /// <summary>
     /// Instantiates a new tower, sets its layer and runs the BuyTower function.
     /// </summary>
-    private void PlaceTower()
+    private void PlaceTower(TileValue tile)
     {
         // WorldPosition locks placement within tiles.
         GameObject tower = Instantiate(GameManager.Instance.ClickedButton.TowerPrefab, currentTile.WorldPosition, Quaternion.identity);
+
+        tile.MyTower = tower.GetComponent<Tower>();
 
         // Update layer
         //tower.GetComponent<Tower>().SetLayers(currentTile.Position.y); // WRONG gives negative layers

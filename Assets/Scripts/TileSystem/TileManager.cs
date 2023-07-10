@@ -174,12 +174,15 @@ public class TileManager : Singleton<TileManager>
 
                 TileValue newTile = new TileValue(levelTilesPosition, !OnlyPathWalkable);
 
-                int random = UnityEngine.Random.Range(0, 2);
+                float scale = 0.2f;
 
-                if (random == 0)
+                float perlinNoise = Mathf.PerlinNoise(tileMapPosition.x * scale + UnityEngine.Random.value, tileMapPosition.y * scale + UnityEngine.Random.value);
+
+                if (perlinNoise < 0.5f)
                 {
                     TileMap.SetTile(tileMapPosition, tiles.Find(x => x.name == "dirt"));
-                } else
+                }
+                else
                 {
                     TileMap.SetTile(tileMapPosition, tiles.Find(x => x.name == "grass"));
                 }

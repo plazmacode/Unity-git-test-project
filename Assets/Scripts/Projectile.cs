@@ -55,8 +55,8 @@ public class Projectile : MonoBehaviour
             if (target.gameObject == other.gameObject)
             {
                 target.TakeDamage(parent.Damage);
+                GameManager.Instance.Pool.ReleaseObject(gameObject);
             }
-            GameManager.Instance.Pool.ReleaseObject(gameObject);
         }
     }
 }

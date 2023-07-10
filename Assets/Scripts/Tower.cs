@@ -25,6 +25,9 @@ public class Tower : MonoBehaviour
     [SerializeField]
     private float attackCooldown;
 
+    [SerializeField]
+    private SpriteRenderer rangeSpriteRenderer;
+
 
     public float ProjectileSpeed { get => projectileSpeed; set => projectileSpeed = value; }
     public int Damage { get => damage; set => damage = value; }
@@ -37,6 +40,11 @@ public class Tower : MonoBehaviour
     private void Update()
     {
         Attack();
+    }
+
+    public void Select()
+    {
+        rangeSpriteRenderer.enabled = !rangeSpriteRenderer.enabled;
     }
 
     private void Rotate()
