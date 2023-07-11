@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using TMPro;
 using UnityEngine;
 
@@ -46,7 +47,7 @@ public class Tower : MonoBehaviour
     private void Awake()
     {
         GameManager.Instance.Towers.Add(this);
-        //Time.timeScale = 0.2f;
+        Time.timeScale = 1.0f;
     }
 
     private void Update()
@@ -100,7 +101,8 @@ public class Tower : MonoBehaviour
 
         if (enemies.Count > 0)
         {
-            Target = enemies[0];
+            int index = enemies.Min(x => x.WaveIndex);
+            Target = enemies.Find(x => x.WaveIndex == index);
         } else
         {
             Target = null;

@@ -13,7 +13,7 @@ public class Enemy : MonoBehaviour
 
     [SerializeField]
     private int reward = 1;
-
+    public int WaveIndex { get; set; }
     public bool IsActive { get; set; }
     private Stack<Node> path;
     public Vector2Int GridPosition { get; set; }

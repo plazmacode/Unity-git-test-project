@@ -199,6 +199,7 @@ public class GameManager : Singleton<GameManager>
 
             Enemy enemy = Pool.GetObject(type).GetComponent<Enemy>();
             enemy.Spawn();
+            enemy.WaveIndex = i;
             yield return new WaitForSeconds(0.2f);
         }
     }
