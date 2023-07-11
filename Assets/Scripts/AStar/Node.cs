@@ -14,7 +14,7 @@ public class Node
     /// <summary>
     /// Currently true because nodes are only created when a tile is walkable
     /// </summary>
-    public bool Walkable { get; private set; } = true;
+    public bool Walkable { get; set; } = true;
 
     public bool IsPath { get; private set; } = false;
 

@@ -104,12 +104,15 @@ public class TileManager : Singleton<TileManager>
     }
 
     /// <summary>
-    /// New path color method. Simpler
+    /// New path color method. Simpler.
     /// </summary>
     public void ColorPath(Stack<Node> path, List<Vector2Int> waypoints)
     {
         ClearDebugCanvas();
-        Node[] array = path.ToArray();
+
+        Node[] array = new Node[path.Count];
+        path.CopyTo(array, 0);
+
         for (int i = 0; i < array.Length; i++)
         {
             ColorTile(array[i].Position, Color.black);

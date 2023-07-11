@@ -33,7 +33,9 @@ public class GameManager : Singleton<GameManager>
             moneyText.text = "Money: " + money.ToString();
         }
     }
-    
+
+    public Tower SelectedTower { get => selectedTower; set => selectedTower = value; }
+
     /// <summary>
     /// Adds pre-placed towers to game. 
     /// Helps updating path finding nodes and Towers list. <br></br>
@@ -81,22 +83,22 @@ public class GameManager : Singleton<GameManager>
 
     public void SelectTower(Tower tower)
     {
-        if (selectedTower != null)
+        if (SelectedTower != null)
         {
-            selectedTower.Select();
+            SelectedTower.Select();
         }
-        selectedTower = tower;
-        selectedTower.Select();
+        SelectedTower = tower;
+        SelectedTower.Select();
     }
 
     public void DeselectTower()
     {
-        if (selectedTower != null)
+        if (SelectedTower != null)
         {
-            selectedTower.Select();
+            SelectedTower.Select();
         }
 
-        selectedTower = null;
+        SelectedTower = null;
     }
 
     private IEnumerator SpawnWave()
@@ -147,7 +149,7 @@ public class GameManager : Singleton<GameManager>
         if (Input.GetMouseButtonDown(1))
         {
             Hover.Instance.Deactivate();
-            if (selectedTower != null)
+            if (SelectedTower != null)
             {
                 DeselectTower();
             }
@@ -160,7 +162,7 @@ public class GameManager : Singleton<GameManager>
         if (Input.GetKeyDown(KeyCode.Escape))
         {
             Hover.Instance.Deactivate();
-            if (selectedTower != null)
+            if (SelectedTower != null)
             {
                 DeselectTower();
             }

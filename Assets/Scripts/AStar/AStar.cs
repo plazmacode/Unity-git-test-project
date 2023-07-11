@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
@@ -44,6 +44,28 @@ public class AStar : Singleton<AStar>
         }
     }
 
+    public Stack<Node> RecalculatePath(Vector2Int waypoint, Vector2Int start, Vector2Int goal)
+    {
+        // Switch start and goal parameter because path is reversed
+        // Path is reversed because of the way it is pushed into path 2.
+        Stack<Node> pathToWaypoint = GetPath(waypoint, start);
+
+        Stack<Node> pathToGoal = GetPath(waypoint, goal); // If path is null maybe try a new waypoint?
+
+        // Add stack 2 to stack 1
+        int counter = 0; // What if a while loop stucks our program 🤔
+        // We sometimes get a null reference here because the path from GetPath() can be null
+        while (pathToWaypoint.Count > 0 && counter < 200)
+        {
+            counter++;
+            pathToGoal.Push(pathToWaypoint.Pop());
+        }
+
+        path = pathToGoal;
+
+        return path;
+    }
+
     public Stack<Node> GetWaypointsPath(int waypointAmount, out List<Vector2Int> waypoints, Vector2Int start, Vector2Int goal)
     {
         waypoints = new List<Vector2Int>();
@@ -54,12 +76,14 @@ public class AStar : Singleton<AStar>
         // Path is reversed because of the way it is pushed into path 2.
         Stack<Node> pathToWaypoint = GetPath(waypoint1, start);
 
-        Stack<Node> pathToGoal = GetPath(waypoint1, goal);
+        Stack<Node> pathToGoal = GetPath(waypoint1, goal); // If path is null maybe try a new waypoint?
 
         // Add stack 2 to stack 1
-        // Can give null refererence? Maybe if waypoint is on start or goal?
-        for (int i = 0; i < pathToWaypoint.Count; i++)
+        int counter = 0; // What if a while loop stucks our program 🤔
+        // We sometimes get a null reference here because the path from GetPath() can be null
+        while (pathToWaypoint.Count > 0 && counter < 200)
         {
+            counter++;
             pathToGoal.Push(pathToWaypoint.Pop());
         }
 
@@ -77,9 +101,11 @@ public class AStar : Singleton<AStar>
         // UnityEngine.Random uses same seed as terrain. See InitState()
         // Terrain currently has a set seed in the editor.
         // Random waypoints are always the same with this implementation.
-        return AllNodes
+        Vector2Int position = AllNodes
             .ElementAt(UnityEngine.Random.Range(0, AllNodes.Count))
             .Value.Position;
+
+        return position;
     }
 
 
@@ -114,6 +140,11 @@ public class AStar : Singleton<AStar>
         }
         current = null;
 
+        if (path == null)
+        {
+            Debug.Log("Path size is null?");
+        }
+
         return path;
     }
 
@@ -133,6 +164,8 @@ public class AStar : Singleton<AStar>
                     if (neighborPosition != startPosition && n != null)
                     {
                         Node neighbor = GetNode(neighborPosition);
+
+                        neighbor.Walkable = !neighbor.Tile.HasTower;
 
                         // Only add walkable neighbors to returned list.
                         if (neighbor.Walkable)

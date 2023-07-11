@@ -29,6 +29,12 @@ public class LevelManager : Singleton<LevelManager>
     public Vector2Int StartPosition { get => startPosition; set => startPosition = value; }
     public List<Vector2Int> Waypoints { get => waypoints; set => waypoints = value; }
 
+    public void RecalculatePath()
+    {
+        path = AStar.Instance.RecalculatePath(Waypoints[1], startPosition, goalPosition);
+        TileManager.Instance.ColorPath(path, Waypoints);
+    }
+
     public void CalculateWaypoints(int waypointAmount)
     {
         path = AStar.Instance.GetWaypointsPath(waypointAmount, out waypoints, startPosition, goalPosition);

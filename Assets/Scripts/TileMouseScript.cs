@@ -87,9 +87,10 @@ public class TileMouseScript : MonoBehaviour
 
                     // Place Tower sets ClickedButton to null, meaning variables from their will not be accessible anymore
                     PlaceTower(tile);
-
                     currentTile.HasTower = true;
                     currentTile.TileNode.SetWalkable(false); // Make enemies not walk over this tile.
+                    LevelManager.Instance.RecalculatePath();
+
                     // Implementation of this can be done differently later.
 
                     // Implementation 1: Use a HasTower bool with the AStar instead of only a Walkable bool
@@ -100,26 +101,34 @@ public class TileMouseScript : MonoBehaviour
             }
             else if (GameManager.Instance.ClickedButton == null)
             {
-                if (GameManager.Instance.MovedTower != null)
+                if (GameManager.Instance.MovedTower != null && tile.MyTower == null)
                 {
-                    Debug.Log("Moving Tower to new Position.");
                     GameManager.Instance.MovedTower.gameObject.transform.position = tile.WorldPosition;
                     tile.HasTower = true;
                     tile.MyTower = GameManager.Instance.MovedTower;
                     GameManager.Instance.MovedTower = null;
+                    LevelManager.Instance.RecalculatePath();
                 }
                 //How do I double click inside this giant if-statement 💀
-                if (Input.GetKey(KeyCode.LeftShift) && tile.MyTower != null)
+                //if (Input.GetKey(KeyCode.LeftShift) && tile.MyTower != null)
+                //{
+                //    GameManager.Instance.MovedTower = tile.MyTower;
+                //    tile.MyTower = null;
+                //    tile.HasTower = false;
+                //}
+                //if (tile.MyTower == GameManager.Instance.SelectedTower)
+                //{
+                //    GameManager.Instance.MovedTower = tile.MyTower;
+                //    tile.MyTower = null;
+                //    tile.HasTower = false;
+                //}
+                if (tile.MyTower != null && tile.MyTower != GameManager.Instance.SelectedTower && GameManager.Instance.MovedTower == null)
                 {
-                    Debug.Log("Moving Tower. Click tile to place.");
+                    GameManager.Instance.SelectTower(tile.MyTower);
+
                     GameManager.Instance.MovedTower = tile.MyTower;
                     tile.MyTower = null;
                     tile.HasTower = false;
-                }
-
-                if (tile.MyTower != null)
-                {
-                    GameManager.Instance.SelectTower(tile.MyTower);
                 }
                 else
                 {
