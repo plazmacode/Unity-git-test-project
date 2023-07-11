@@ -60,9 +60,9 @@ public class Tower : MonoBehaviour
     private void UpdateEnemies()
     {
         enemies = new List<Enemy>();
-        ContactFilter2D c = new ContactFilter2D();
-        c.NoFilter();
-        rangeCollider.OverlapCollider(c, overlaps);
+        ContactFilter2D contactFilter2D = new ContactFilter2D();
+        contactFilter2D.NoFilter();
+        rangeCollider.OverlapCollider(contactFilter2D, overlaps);
 
         for (int i = 0; i < overlaps.Count; i++)
         {

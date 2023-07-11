@@ -169,6 +169,7 @@ public class GameManager : Singleton<GameManager>
         }
         MovedTower = null;
         SelectedTower = null;
+        TileManager.Instance.ClearColoring();
     }
 
     private IEnumerator SpawnWave()

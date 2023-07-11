@@ -123,7 +123,6 @@ public class TileMouseScript : MonoBehaviour
 
                     } else
                     {
-                        TileManager.Instance.ClearColoring();
                         GameManager.Instance.DeselectTower();
                     }
                 }
