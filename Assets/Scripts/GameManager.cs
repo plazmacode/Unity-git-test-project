@@ -78,7 +78,7 @@ public class GameManager : Singleton<GameManager>
 
     public void CreateWaypoints()
     {
-        LevelManager.Instance.CalculateWaypoints(1);
+        LevelManager.Instance.CalculateWaypoints(2);
     }
 
     public void SelectTower(Tower tower)

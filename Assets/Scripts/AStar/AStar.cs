@@ -44,55 +44,39 @@ public class AStar : Singleton<AStar>
         }
     }
 
-    public Stack<Node> RecalculatePath(Vector2Int waypoint, Vector2Int start, Vector2Int goal)
+    public Stack<Node> GetWaypointsPath(List<Vector2Int> waypoints)
     {
-        // Switch start and goal parameter because path is reversed
-        // Path is reversed because of the way it is pushed into path 2.
-        Stack<Node> pathToWaypoint = GetPath(waypoint, start);
+        List<Node> waypointPath = new List<Node>();
 
-        Stack<Node> pathToGoal = GetPath(waypoint, goal); // If path is null maybe try a new waypoint?
-
-        // Add stack 2 to stack 1
-        int counter = 0; // What if a while loop stucks our program 🤔
-        // We sometimes get a null reference here because the path from GetPath() can be null
-        while (pathToWaypoint.Count > 0 && counter < 200)
+        for (int i = 0; i < waypoints.Count-1; i++)
         {
-            counter++;
-            pathToGoal.Push(pathToWaypoint.Pop());
+            // Switch start and goal parameter because path is reversed
+            // Path is reversed because of the way it is pushed into path 2.
+            Stack<Node> pathToWaypoint = GetPath(waypoints[i], waypoints[i+1]);
+
+            waypointPath.AddRange(pathToWaypoint);
+        }
+        //Stack<Node> pathToGoal = GetPath(waypoints[waypoints.Count-1], goal); // If path is null maybe try a new waypoint?
+
+        //// Add stack 2 to stack 1
+        //int counter2 = 0; // What if a while loop stucks our program 🤔
+        //// We sometimes get a null reference here because the path from GetPath() can be null
+        //while (waypointPath.Count > 0 && counter2 < 200)
+        //{
+        //    counter2++;
+        //    pathToGoal.Push(waypointPath.Pop());
+        //}
+
+        waypointPath.Reverse();
+        Stack<Node> pathStack = new Stack<Node>();
+
+        for (int i = 0; i < waypointPath.Count; i++)
+        {
+            pathStack.Push(waypointPath[i]);
         }
 
-        path = pathToGoal;
-
-        return path;
-    }
-
-    public Stack<Node> GetWaypointsPath(int waypointAmount, out List<Vector2Int> waypoints, Vector2Int start, Vector2Int goal)
-    {
-        waypoints = new List<Vector2Int>();
-
-        Vector2Int waypoint1 = GetRandomNodePosition();
-
-        // Switch start and goal parameter because path is reversed
-        // Path is reversed because of the way it is pushed into path 2.
-        Stack<Node> pathToWaypoint = GetPath(waypoint1, start);
-
-        Stack<Node> pathToGoal = GetPath(waypoint1, goal); // If path is null maybe try a new waypoint?
-
-        // Add stack 2 to stack 1
-        int counter = 0; // What if a while loop stucks our program 🤔
-        // We sometimes get a null reference here because the path from GetPath() can be null
-        while (pathToWaypoint.Count > 0 && counter < 200)
-        {
-            counter++;
-            pathToGoal.Push(pathToWaypoint.Pop());
-        }
-
-        path = pathToGoal;
-
-        waypoints.Add(start);
-        waypoints.Add(waypoint1);
-        waypoints.Add(goal);
-
+        path = pathStack;
+        
         return path;
     }
 

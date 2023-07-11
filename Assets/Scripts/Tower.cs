@@ -1,12 +1,14 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 
 public class Tower : MonoBehaviour
 {
     public Enemy Target { get; private set; }
 
-    private Queue<Enemy> enemies = new Queue<Enemy>();
+    private List<Enemy> enemies = new List<Enemy>();
 
     [SerializeField]
     private GameObject turret;
@@ -26,8 +28,15 @@ public class Tower : MonoBehaviour
     private float attackCooldown;
 
     [SerializeField]
+    private TextMeshProUGUI enemiesText;
+
+    [SerializeField]
     private SpriteRenderer rangeSpriteRenderer;
 
+    [SerializeField]
+    private CircleCollider2D rangeCollider;
+
+    private List<Collider2D> overlaps = new List<Collider2D>();
 
     public float ProjectileSpeed { get => projectileSpeed; set => projectileSpeed = value; }
     public int Damage { get => damage; set => damage = value; }
@@ -35,11 +44,30 @@ public class Tower : MonoBehaviour
     private void Awake()
     {
         GameManager.Instance.Towers.Add(this);
+        //Time.timeScale = 0.2f;
     }
 
     private void Update()
     {
+        UpdateEnemies();
         Attack();
+        enemiesText.text = enemies.Count.ToString();
+    }
+
+    private void UpdateEnemies()
+    {
+        enemies = new List<Enemy>();
+        ContactFilter2D c = new ContactFilter2D();
+        c.NoFilter();
+        rangeCollider.OverlapCollider(c, overlaps);
+
+        for (int i = 0; i < overlaps.Count; i++)
+        {
+            if (overlaps[i].tag == "Enemy")
+            {
+                enemies.Add(overlaps[i].GetComponent<Enemy>());
+            }
+        }
     }
 
     public void Select()
@@ -68,12 +96,18 @@ public class Tower : MonoBehaviour
             }
         }
 
+        if (enemies.Count > 0)
+        {
+            Target = enemies[0];
+        } else
+        {
+            Target = null;
+        }
 
         // If there is no curent target, but other potential targets exists
         if (Target == null && enemies.Count > 0)
         {
             // Change target
-            Target = enemies.Dequeue();
         }
 
         if (Target != null && Target.IsActive)
@@ -105,19 +139,29 @@ public class Tower : MonoBehaviour
         turret.GetComponent<SpriteRenderer>().sortingOrder = layer + 1;
     }
 
-    private void OnTriggerEnter2D(Collider2D other)
+    public void RemoveEnemy(Enemy enemy)
     {
-        if (other.tag == "Enemy")
-        {
-            enemies.Enqueue(other.GetComponent<Enemy>());
-        }
+        enemies.Remove(enemy);
     }
 
-    private void OnTriggerExit2D(Collider2D other)
-    {
-        if (other.tag == "Enemy")
-        {
-            Target = null;
-        }
-    }
+    //private void OnTriggerEnter2D(Collider2D other)
+    //{
+    //    if (other.tag == "Enemy")
+    //    {
+    //        Enemy e = other.GetComponent<Enemy>();
+    //        enemies.Add(e);
+    //        e.Towers.Add(this);
+    //    }
+    //}
+
+    //private void OnTriggerExit2D(Collider2D other)
+    //{
+    //    if (other.tag == "Enemy")
+    //    {
+    //        Enemy e = other.GetComponent<Enemy>();
+
+    //        enemies.Remove(e);
+    //        e.Towers.Remove(this);
+    //    }
+    //}
 }

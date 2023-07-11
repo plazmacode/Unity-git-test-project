@@ -20,7 +20,7 @@ public class LevelManager : Singleton<LevelManager>
         {
             if (path == null)
             {
-                CalculateWaypoints(1);
+                CalculateWaypoints(2);
             }
             return new Stack<Node>(new Stack<Node>(path));
         }
@@ -31,13 +31,25 @@ public class LevelManager : Singleton<LevelManager>
 
     public void RecalculatePath()
     {
-        path = AStar.Instance.RecalculatePath(Waypoints[1], startPosition, goalPosition);
+        path = AStar.Instance.GetWaypointsPath(Waypoints);
         TileManager.Instance.ColorPath(path, Waypoints);
     }
 
     public void CalculateWaypoints(int waypointAmount)
     {
-        path = AStar.Instance.GetWaypointsPath(waypointAmount, out waypoints, startPosition, goalPosition);
+        List<Vector2Int> waypoints = new List<Vector2Int>();
+
+        waypoints.Add(startPosition);
+        for (int i = 0; i < waypointAmount; i++)
+        {
+            waypoints.Add(AStar.Instance.GetRandomNodePosition());
+        }
+        waypoints.Add(goalPosition);
+
+
+        path = AStar.Instance.GetWaypointsPath(waypoints);
+
+        Waypoints = waypoints;
 
         TileManager.Instance.ColorPath(path, Waypoints);
     }
@@ -59,7 +71,7 @@ public class LevelManager : Singleton<LevelManager>
             // Generate Waypoints path
             if (path == null)
             {
-                CalculateWaypoints(1);
+                CalculateWaypoints(2);
             }
             TileManager.Instance.ColorPath(path, Waypoints);
         }

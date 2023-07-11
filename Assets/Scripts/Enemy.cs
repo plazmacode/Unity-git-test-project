@@ -22,6 +22,8 @@ public class Enemy : MonoBehaviour
 
     private GameObject healthBar;
 
+    public HashSet<Tower> Towers { get; set; } = new HashSet<Tower>();
+
     private void UpdateHealthBar()
     {
         healthBar.transform.localScale = new Vector3(health / 10f, 0.05f, 1);
@@ -79,6 +81,11 @@ public class Enemy : MonoBehaviour
     /// </summary>
     private void Release()
     {
+        foreach (Tower tower in Towers)
+        {
+            tower.RemoveEnemy(this);
+        }
+        Towers.Clear();
         IsActive = false;
         // Maybe add code for resetting position to start
         GameManager.Instance.Pool.ReleaseObject(gameObject);
