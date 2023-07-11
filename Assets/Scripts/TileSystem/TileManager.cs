@@ -109,6 +109,10 @@ public class TileManager : Singleton<TileManager>
     public void ColorPath(Stack<Node> path, List<Vector2Int> waypoints)
     {
         ClearDebugCanvas();
+        foreach (Node node in AStar.Instance.AllNodes.Values)
+        {
+            ColorTile(node.Position, Color.white);
+        }
 
         Node[] array = new Node[path.Count];
         path.CopyTo(array, 0);
@@ -266,6 +270,14 @@ public class TileManager : Singleton<TileManager>
         }
     }
 
+    public void ClearColoring()
+    {
+        foreach (TileValue tileValue in tileValues.Values)
+        {
+            ColorTile(tileValue.Position, Color.white);
+        }
+    }
+
     public void ClearDebugCanvas()
     {
         // Destroy DebugCanvas children
@@ -276,10 +288,10 @@ public class TileManager : Singleton<TileManager>
             Destroy(child.gameObject);
         }
 
-        foreach (Node node in AStar.Instance.AllNodes.Values)
-        {
-            ColorTile(node.Position, Color.white);
-        }
+        //foreach (Node node in AStar.Instance.AllNodes.Values)
+        //{
+        //    ColorTile(node.Position, Color.white);
+        //}
 
         debugObjects.Clear();
     }

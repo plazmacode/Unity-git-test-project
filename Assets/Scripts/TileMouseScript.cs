@@ -10,6 +10,7 @@ public class TileMouseScript : MonoBehaviour
     private Tilemap tilemap;
     private TileValue currentTile;
     private TileValue previousTile;
+    private TileValue towerPreMovePosition;
 
     void Start()
     {
@@ -66,7 +67,7 @@ public class TileMouseScript : MonoBehaviour
     private void MouseOverTile(TileValue tile)
     {
         // If Left mouse down, tile is not null, mouse is not over a UI GameObject
-        if (Input.GetMouseButtonDown(0) && tile != null && !EventSystem.current.IsPointerOverGameObject())
+        if (Input.GetMouseButtonDown(0) && tile != null)
         {
             // The DebugCanvas blocks our tower placement
             TileManager.Instance.ClearDebugCanvas();
@@ -101,13 +102,30 @@ public class TileMouseScript : MonoBehaviour
             }
             else if (GameManager.Instance.ClickedButton == null)
             {
+                // Place Tower
                 if (GameManager.Instance.MovedTower != null && tile.MyTower == null)
                 {
-                    GameManager.Instance.MovedTower.gameObject.transform.position = tile.WorldPosition;
-                    tile.HasTower = true;
-                    tile.MyTower = GameManager.Instance.MovedTower;
-                    GameManager.Instance.MovedTower = null;
-                    LevelManager.Instance.RecalculatePath();
+                    if (GameManager.Instance.MovablePositions.Contains(tile.Position))
+                    {
+                        TileManager.Instance.ClearColoring();
+                        // Move tower gameobject
+                        GameManager.Instance.MovedTower.gameObject.transform.position = tile.WorldPosition;
+
+                        tile.HasTower = true;
+                        tile.MyTower = GameManager.Instance.MovedTower;
+                        GameManager.Instance.MovedTower = null;
+
+                        towerPreMovePosition.HasTower = false;
+                        towerPreMovePosition.MyTower = null;
+
+                        // Remove tower from previous tile
+                        LevelManager.Instance.RecalculatePath();
+
+                    } else
+                    {
+                        TileManager.Instance.ClearColoring();
+                        GameManager.Instance.DeselectTower();
+                    }
                 }
                 //How do I double click inside this giant if-statement 💀
                 //if (Input.GetKey(KeyCode.LeftShift) && tile.MyTower != null)
@@ -122,13 +140,14 @@ public class TileMouseScript : MonoBehaviour
                 //    tile.MyTower = null;
                 //    tile.HasTower = false;
                 //}
+                // Move Tower
                 if (tile.MyTower != null && tile.MyTower != GameManager.Instance.SelectedTower && GameManager.Instance.MovedTower == null)
                 {
                     GameManager.Instance.SelectTower(tile.MyTower);
 
                     GameManager.Instance.MovedTower = tile.MyTower;
-                    tile.MyTower = null;
-                    tile.HasTower = false;
+                    GameManager.Instance.CalculateMove(tile.MyTower.MoveDistance);
+                    towerPreMovePosition = tile;
                 }
                 else
                 {

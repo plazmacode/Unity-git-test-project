@@ -10,6 +10,8 @@ public class Tower : MonoBehaviour
 
     private List<Enemy> enemies = new List<Enemy>();
 
+    public int MoveDistance { get; set; } = 5;
+
     [SerializeField]
     private GameObject turret;
 

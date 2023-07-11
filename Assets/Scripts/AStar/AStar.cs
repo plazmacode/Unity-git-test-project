@@ -132,7 +132,7 @@ public class AStar : Singleton<AStar>
         return path;
     }
 
-    private List<Node> FindNeighbors(Vector2Int parentPosition)
+    public List<Node> FindNeighbors(Vector2Int parentPosition)
     {
         List<Node> neighbors = new List<Node>();
 
@@ -343,7 +343,7 @@ public class AStar : Singleton<AStar>
         }
     }
 
-    private Node GetNode(Vector2Int position)
+    public Node GetNode(Vector2Int position)
     {
         if (AllNodes.ContainsKey(position))
         {

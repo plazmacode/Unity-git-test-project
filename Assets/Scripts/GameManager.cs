@@ -15,6 +15,8 @@ public class GameManager : Singleton<GameManager>
 
     public Tower MovedTower { get; set; }
 
+    public List<Vector2Int> MovablePositions { get; set; } = new List<Vector2Int>();
+
     [SerializeField]
     private float money = 0;
 
@@ -64,6 +66,49 @@ public class GameManager : Singleton<GameManager>
     {
         HandleEscape();
         HandleRightClick();
+        HighlightTiles();
+    }
+
+    public void CalculateMove(int moveDistance)
+    {
+        TileManager.Instance.ClearColoring();
+        MovablePositions.Clear();
+
+        List<Node> movableNodes = new List<Node>();
+        
+        Vector2Int pos = (Vector2Int)TileManager.Instance.TileMap.WorldToCell(MovedTower.transform.position);
+
+        movableNodes.Add(AStar.Instance.GetNode(pos));
+
+        for (int i = 0; i < moveDistance; i++)
+        {
+            int count = movableNodes.Count;
+            for (int j = 0; j < count; j++)
+            {
+                List<Node> newNodes = AStar.Instance.FindNeighbors(movableNodes[j].Position);
+                for (int k = 0; k < newNodes.Count; k++)
+                {
+                    if (!movableNodes.Contains(newNodes[k]))
+                    {
+                        movableNodes.Add(newNodes[k]);
+                    }
+                }
+            }
+        }
+
+        for (int i = 0; i < movableNodes.Count; i++)
+        {
+            MovablePositions.Add(movableNodes[i].Position);
+            TileManager.Instance.ColorTile(movableNodes[i].Position, Color.red);
+        }
+    }
+
+    private void HighlightTiles()
+    {
+        if (MovedTower != null)
+        {
+
+        }
     }
 
     public void StartWave()
@@ -97,7 +142,7 @@ public class GameManager : Singleton<GameManager>
         {
             SelectedTower.Select();
         }
-
+        MovedTower = null;
         SelectedTower = null;
     }
 
