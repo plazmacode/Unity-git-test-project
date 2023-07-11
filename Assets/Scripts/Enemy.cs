@@ -32,6 +32,7 @@ public class Enemy : MonoBehaviour
     public void Spawn()
     {
         // Set start position from cell start from LevelManager Property
+        InterfaceManager.Instance.EnemyCount++;
         transform.position = TileManager.Instance.TileMap.CellToWorld((Vector3Int)LevelManager.Instance.StartPosition);
         IsActive = true;
         SetPath(LevelManager.Instance.Path);
@@ -81,6 +82,7 @@ public class Enemy : MonoBehaviour
     /// </summary>
     private void Release()
     {
+        InterfaceManager.Instance.EnemyCount--;
         foreach (Tower tower in Towers)
         {
             tower.RemoveEnemy(this);
@@ -94,7 +96,7 @@ public class Enemy : MonoBehaviour
     public void TakeDamage(int damage)
     {
         health -= damage;
-        if (health <= 0)
+        if (health <= 0 && gameObject.activeInHierarchy)
         {
             Release();
             GameManager.Instance.Money += reward;

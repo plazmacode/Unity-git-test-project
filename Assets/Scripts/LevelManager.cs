@@ -35,6 +35,11 @@ public class LevelManager : Singleton<LevelManager>
         TileManager.Instance.ColorPath(path, Waypoints);
     }
 
+    private void Start()
+    {
+        CalculateWaypoints(2);
+    }
+
     public void CalculateWaypoints(int waypointAmount)
     {
         List<Vector2Int> waypoints = new List<Vector2Int>();

@@ -197,7 +197,7 @@ public class TileMouseScript : MonoBehaviour
         //tower.GetComponent<Tower>().SetLayers(currentTile.Position.y); // WRONG gives negative layers
 
         // Use Tile limits[1].y is the lowest tile position value.
-        // Its already negativ, so minus minus to get a positive variable.
+        // Its already negative, so minus minus to get a positive variable.
         tower.GetComponent<Tower>().SetLayers(currentTile.Position.y -TileManager.Instance.TileLimits[1].y);
 
         // Set parent to tileMap GameObject, the object this script is on.

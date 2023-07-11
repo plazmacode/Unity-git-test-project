@@ -22,6 +22,10 @@ public class GameManager : Singleton<GameManager>
 
     [SerializeField]
     private TextMeshProUGUI moneyText;
+
+    [SerializeField]
+    List<TowerButton> towerButtons;
+
     public TextMeshProUGUI MoneyText { get => moneyText; set => moneyText = value; }
     public float Money
     {
@@ -67,6 +71,27 @@ public class GameManager : Singleton<GameManager>
         HandleEscape();
         HandleRightClick();
         HighlightTiles();
+        Shortcut();
+    }
+
+    private void Shortcut()
+    {
+        if (Input.GetKeyDown(KeyCode.Alpha1))
+        {
+            PickTower(towerButtons[0]);
+        }
+        if (Input.GetKeyDown(KeyCode.Alpha2))
+        {
+            PickTower(towerButtons[1]);
+        }
+        if (Input.GetKeyDown(KeyCode.Alpha3))
+        {
+            PickTower(towerButtons[2]);
+        }
+        if (Input.GetKeyDown(KeyCode.Alpha4))
+        {
+            PickTower(towerButtons[3]);
+        }
     }
 
     public void CalculateMove(int moveDistance)
