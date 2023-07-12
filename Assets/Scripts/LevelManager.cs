@@ -33,6 +33,7 @@ public class LevelManager : Singleton<LevelManager>
     {
         path = AStar.Instance.GetWaypointsPath(Waypoints);
         TileManager.Instance.ColorPath(path, Waypoints);
+        InterfaceManager.Instance.UpdateLineRendererPath(path);
     }
 
     private void Start()
@@ -55,7 +56,7 @@ public class LevelManager : Singleton<LevelManager>
         path = AStar.Instance.GetWaypointsPath(waypoints);
 
         Waypoints = waypoints;
-
+        InterfaceManager.Instance.UpdateLineRendererPath(path);
         TileManager.Instance.ColorPath(path, Waypoints);
     }
 

@@ -13,6 +13,16 @@ public class InterfaceManager : Singleton<InterfaceManager>
     private void Update()
     {
         UpdateEnemyCount();
+        InputHandler();
+        
+    }
+
+    private void InputHandler()
+    {
+        if (Input.GetKeyDown(KeyCode.L))
+        {
+            LineController.Instance.ShowLineRenderer();
+        }
     }
 
     private void UpdateEnemyCount()
@@ -23,6 +33,23 @@ public class InterfaceManager : Singleton<InterfaceManager>
         enemyCountBuilder.Append(EnemyCount.ToString());
 
         enemyCountText.text = enemyCountBuilder.ToString();
+    }
 
+    /// <summary>
+    /// LineRenderer path visualization
+    /// </summary>
+    /// <param name="path">Path of AStar Algorithm</param>
+    public void UpdateLineRendererPath(Stack<Node> path)
+    {
+        List<Vector3> positions = new List<Vector3>();
+
+        Node[] nodeArray = path.ToArray();
+
+        for (int i = 0; i < nodeArray.Length; i++)
+        {
+            positions.Add(nodeArray[i].Tile.WorldPosition);
+        }
+
+        LineController.Instance.SetupLine(positions);
     }
 }
