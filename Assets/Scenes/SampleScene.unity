@@ -4500,7 +4500,8 @@ MonoBehaviour:
   wavesBetweenSetupPhases: 5
   waypointCount: 2
   sequentialMode: 0
-  minWaypointDistance: 0
+  minWaypointMode: 1
+  minWaypointDistance: 4
 --- !u!1 &1079636366
 GameObject:
   m_ObjectHideFlags: 0

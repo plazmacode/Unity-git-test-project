@@ -108,6 +108,35 @@ public class AStar : Singleton<AStar>
         return GetWaypointsPath(shortestWaypointOrder);
     }
 
+    public List<Vector2Int> GetMinWaypointMode(Vector2Int start, int waypointCount, int minWaypointDistance)
+    {
+        List<Vector2Int> waypoints = new List<Vector2Int>();
+        waypoints.Add(start);
+
+        while (waypoints.Count -1 < waypointCount)
+        {
+            Vector2Int randomPosition = GetRandomNodePosition();
+
+            bool accepted = true;
+            for (int i = 0; i < waypoints.Count; i++)
+            {
+                Stack<Node> currentPath = GetPath(waypoints[i], randomPosition);
+                if (currentPath.Count < minWaypointDistance)
+                {
+                    accepted = false;
+                }
+            }
+
+            if (accepted)
+            {
+                waypoints.Add(randomPosition);
+            }
+
+        }
+
+        return waypoints;
+    }
+
     public Vector2Int GetRandomNodePosition()
     {
         // UnityEngine.Random uses same seed as terrain. See InitState()
@@ -154,7 +183,7 @@ public class AStar : Singleton<AStar>
 
         if (path == null)
         {
-            Debug.Log("Path size is null?");
+            Debug.Log($"Path size is null? start: {start}, goal: {goal}");
         }
 
         return path;

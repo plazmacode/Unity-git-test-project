@@ -54,27 +54,35 @@ public class LevelManager : Singleton<LevelManager>
 
     public void CalculateWaypoints()
     {
-        List<Vector2Int> waypoints = new List<Vector2Int>();
+        List<Vector2Int> newWaypoints = new List<Vector2Int>();
 
-        waypoints.Add(startPosition);
-        for (int i = 0; i < WaypointCount; i++)
+        newWaypoints.Add(startPosition);
+
+        if (TestController.Instance.MinWaypointMode)
         {
-            waypoints.Add(AStar.Instance.GetRandomNodePosition());
+            newWaypoints = AStar.Instance.GetMinWaypointMode(newWaypoints[0], WaypointCount, TestController.Instance.MinWaypointDistance);
+        } else
+        {
+            for (int i = 0; i < WaypointCount; i++)
+            {
+                newWaypoints.Add(AStar.Instance.GetRandomNodePosition());
+            }
         }
-        waypoints.Add(goalPosition);
+
+        newWaypoints.Add(goalPosition);
 
         // Calculate Sequential
         if (TestController.Instance.SequentialMode)
         {
-            path = AStar.Instance.GetWaypointsPath(waypoints);
+            path = AStar.Instance.GetWaypointsPath(newWaypoints);
         }
         // Calculate shortest
         else
         {
-            path = AStar.Instance.GetShortestWaypointPath(waypoints);
+            path = AStar.Instance.GetShortestWaypointPath(newWaypoints);
         }
 
-        Waypoints = waypoints;
+        Waypoints = newWaypoints;
         InterfaceManager.Instance.UpdateLineRendererPath(path);
         TileManager.Instance.ColorPath(path, Waypoints);
     }

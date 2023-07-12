@@ -45,6 +45,9 @@ public class TestController : Singleton<TestController>
     private bool sequentialMode = true;
 
     [SerializeField]
+    private bool minWaypointMode = true;
+
+    [SerializeField]
     private int minWaypointDistance = 5; //
 
     public float TimeScale {
@@ -61,6 +64,8 @@ public class TestController : Singleton<TestController>
 
     public int TowerMoveCooldown { get => towerMoveCooldown; set => towerMoveCooldown = value; }
     public bool SequentialMode { get => sequentialMode; set => sequentialMode = value; }
+    public bool MinWaypointMode { get => minWaypointMode; set => minWaypointMode = value; }
+    public int MinWaypointDistance { get => minWaypointDistance; set => minWaypointDistance = value; }
 
     private void Start()
     {

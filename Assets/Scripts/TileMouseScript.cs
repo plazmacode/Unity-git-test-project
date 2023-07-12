@@ -56,7 +56,7 @@ public class TileMouseScript : MonoBehaviour
 
         if (Input.GetMouseButtonDown(0))
         {
-            //DebugText();
+            DebugText();
         }
     }
 
