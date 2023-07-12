@@ -177,7 +177,7 @@ public class GameManager : Singleton<GameManager>
 
     public void StartWave()
     {
-        if (!WaveActive)
+        if (!WaveActive || TestController.Instance.CanStartWaveAnytime)
         {
             WaveActive = true;
             SetupPhase = false;

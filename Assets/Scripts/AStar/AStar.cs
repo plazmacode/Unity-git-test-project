@@ -44,6 +44,11 @@ public class AStar : Singleton<AStar>
         }
     }
 
+    /// <summary>
+    /// Gets path between list of waypoints.
+    /// </summary>
+    /// <param name="waypoints"></param>
+    /// <returns></returns>
     public Stack<Node> GetWaypointsPath(List<Vector2Int> waypoints)
     {
         List<Node> waypointPath = new List<Node>();
@@ -79,6 +84,11 @@ public class AStar : Singleton<AStar>
         return path;
     }
 
+    /// <summary>
+    /// Sorts list of waypoint to make shortest path.
+    /// </summary>
+    /// <param name="waypoints"></param>
+    /// <returns></returns>
     public Stack<Node> GetShortestWaypointPath(List<Vector2Int> waypoints)
     {
         List<Vector2Int> waypointCopy = new List<Vector2Int>(waypoints);
@@ -108,6 +118,13 @@ public class AStar : Singleton<AStar>
         return GetWaypointsPath(shortestWaypointOrder);
     }
 
+    /// <summary>
+    /// Generates random List of waypoints with minimum distance to any other waypoint
+    /// </summary>
+    /// <param name="start"></param>
+    /// <param name="waypointCount"></param>
+    /// <param name="minWaypointDistance"></param>
+    /// <returns></returns>
     public List<Vector2Int> GetMinWaypointMode(Vector2Int start, int waypointCount, int minWaypointDistance)
     {
         List<Vector2Int> waypoints = new List<Vector2Int>();
@@ -137,6 +154,10 @@ public class AStar : Singleton<AStar>
         return waypoints;
     }
 
+    /// <summary>
+    /// Returns any random node. WARNING: usage with GetPath() can be null if start and goal is the same.
+    /// </summary>
+    /// <returns></returns>
     public Vector2Int GetRandomNodePosition()
     {
         // UnityEngine.Random uses same seed as terrain. See InitState()
@@ -149,7 +170,13 @@ public class AStar : Singleton<AStar>
         return position;
     }
 
-
+    /// <summary>
+    /// Gets the shortest AStar path from start to goal node.
+    /// </summary>
+    /// <param name="start"></param>
+    /// <param name="goal"></param>
+    /// <param name="colorPath"></param>
+    /// <returns></returns>
     public Stack<Node> GetPath(Vector2Int start, Vector2Int goal, bool colorPath = false)
     {
         // Clear path variable so AStar can be run again

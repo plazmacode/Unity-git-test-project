@@ -37,6 +37,9 @@ public class TestController : Singleton<TestController>
     [SerializeField]
     private int wavesBetweenSetupPhases = 5;
 
+    [SerializeField]
+    private bool canStartWaveAnytime = false;
+
     [Header("Waypoint Settings")]
     [SerializeField]
     private int waypointCount = 2;
@@ -66,6 +69,7 @@ public class TestController : Singleton<TestController>
     public bool SequentialMode { get => sequentialMode; set => sequentialMode = value; }
     public bool MinWaypointMode { get => minWaypointMode; set => minWaypointMode = value; }
     public int MinWaypointDistance { get => minWaypointDistance; set => minWaypointDistance = value; }
+    public bool CanStartWaveAnytime { get => canStartWaveAnytime; set => canStartWaveAnytime = value; }
 
     private void Start()
     {

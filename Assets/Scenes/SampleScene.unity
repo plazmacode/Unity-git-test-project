@@ -4498,6 +4498,7 @@ MonoBehaviour:
   enemiesPerWave: 25
   currentWave: 0
   wavesBetweenSetupPhases: 5
+  canStartWaveAnytime: 0
   waypointCount: 2
   sequentialMode: 0
   minWaypointMode: 1
