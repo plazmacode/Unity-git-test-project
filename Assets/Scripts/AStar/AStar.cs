@@ -50,8 +50,7 @@ public class AStar : Singleton<AStar>
 
         for (int i = 0; i < waypoints.Count-1; i++)
         {
-            // Switch start and goal parameter because path is reversed
-            // Path is reversed because of the way it is pushed into path 2.
+            // Path can become null sometimes?
             Stack<Node> pathToWaypoint = GetPath(waypoints[i], waypoints[i+1]);
 
             waypointPath.AddRange(pathToWaypoint);
@@ -78,6 +77,35 @@ public class AStar : Singleton<AStar>
         path = pathStack;
         
         return path;
+    }
+
+    public Stack<Node> GetShortestWaypointPath(List<Vector2Int> waypoints)
+    {
+        List<Vector2Int> waypointCopy = new List<Vector2Int>(waypoints);
+        List<Vector2Int> shortestWaypointOrder = new List<Vector2Int>();
+        shortestWaypointOrder.Add(waypoints[0]);
+
+        while (waypointCopy.Count > 2)
+        {
+            Stack<Node> shortestPathToWaypoint = GetPath(shortestWaypointOrder[shortestWaypointOrder.Count -1], waypointCopy[1]);
+            Vector2Int nextWaypoint = waypointCopy[1];
+            for (int i = 1; i < waypointCopy.Count - 1; i++)
+            {
+                Stack<Node> wayPointPath = GetPath(shortestWaypointOrder[shortestWaypointOrder.Count -1], waypointCopy[i]);
+                if (wayPointPath.Count < shortestPathToWaypoint.Count)
+                {
+                    shortestPathToWaypoint = wayPointPath;
+                    nextWaypoint = waypointCopy[i];
+                }
+            }
+
+            shortestWaypointOrder.Add(nextWaypoint);
+            waypointCopy.Remove(nextWaypoint);
+        }
+        shortestWaypointOrder.Add(waypoints[waypoints.Count -1]);
+
+
+        return GetWaypointsPath(shortestWaypointOrder);
     }
 
     public Vector2Int GetRandomNodePosition()

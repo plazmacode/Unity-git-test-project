@@ -114,9 +114,11 @@ public class TileMouseScript : MonoBehaviour
                         tile.HasTower = true;
                         tile.MyTower = GameManager.Instance.MovedTower;
                         GameManager.Instance.MovedTower = null;
+                        tile.MyTower.TowerMoveCooldown = TestController.Instance.TowerMoveCooldown;
 
                         towerPreMovePosition.HasTower = false;
                         towerPreMovePosition.MyTower = null;
+
 
                         // Remove tower from previous tile
                         LevelManager.Instance.RecalculatePath();
@@ -140,7 +142,12 @@ public class TileMouseScript : MonoBehaviour
                 //    tile.HasTower = false;
                 //}
                 // Move Tower
-                if (tile.MyTower != null && tile.MyTower != GameManager.Instance.SelectedTower && GameManager.Instance.MovedTower == null)
+                if (tile.MyTower != null &&
+                    tile.MyTower != GameManager.Instance.SelectedTower &&
+                    GameManager.Instance.MovedTower == null &&
+                    GameManager.Instance.SetupPhase &&
+                    tile.MyTower.TowerMoveCooldown <= 0
+                    )
                 {
                     GameManager.Instance.SelectTower(tile.MyTower);
 

@@ -26,6 +26,18 @@ public class GameManager : Singleton<GameManager>
     [SerializeField]
     List<TowerButton> towerButtons;
 
+    public int Health { get; set; } = 10;
+
+    public int EnemyPerWave { get; set; } = 25;
+
+    public int EnemiesKilledInWave { get; set; }
+
+    public bool WaveActive { get; set; }
+
+    public bool SetupPhase { get; set; }
+
+    public int WavesBetweenSetupPhases { get; set; } = 5;
+
     public TextMeshProUGUI MoneyText { get => moneyText; set => moneyText = value; }
     public float Money
     {
@@ -41,6 +53,7 @@ public class GameManager : Singleton<GameManager>
     }
 
     public Tower SelectedTower { get => selectedTower; set => selectedTower = value; }
+    public int Waves { get; set; }
 
     /// <summary>
     /// Adds pre-placed towers to game. 
@@ -59,6 +72,17 @@ public class GameManager : Singleton<GameManager>
         }
     }
 
+    private void UpdateTowers()
+    {
+        for (int i = 0; i < Towers.Count; i++)
+        {
+            if (Towers[i].TowerMoveCooldown > 0)
+            {
+                Towers[i].TowerMoveCooldown--;
+            }
+        }
+    }
+
     private void Awake()
     {
         Pool = GetComponent<ObjectPool>();
@@ -72,6 +96,21 @@ public class GameManager : Singleton<GameManager>
         HandleRightClick();
         HighlightTiles();
         Shortcut();
+        CheckWaveComplete();
+    }
+
+    private void CheckWaveComplete()
+    {
+        if (EnemiesKilledInWave >= EnemyPerWave && WaveActive)
+        {
+            UpdateTowers();
+            WaveActive = false;
+            if (Waves % WavesBetweenSetupPhases == 0)
+            {
+                SetupPhase = true;
+                InterfaceManager.Instance.SetupPhaseText.enabled = true;
+            }
+        }
     }
 
     private void Shortcut()
@@ -138,17 +177,25 @@ public class GameManager : Singleton<GameManager>
 
     public void StartWave()
     {
-        //LevelManager.Instance.GeneratePath(false);
-        if (LevelManager.Instance.Path == null)
+        if (!WaveActive)
         {
-            CreateWaypoints();
+            WaveActive = true;
+            SetupPhase = false;
+            InterfaceManager.Instance.SetupPhaseText.enabled = false;
+            //LevelManager.Instance.GeneratePath(false);
+            if (LevelManager.Instance.Path == null)
+            {
+                CreateWaypoints();
+            }
+            StartCoroutine(SpawnWave());
+            EnemiesKilledInWave = 0;
+            Waves++;
         }
-        StartCoroutine(SpawnWave());
     }
 
     public void CreateWaypoints()
     {
-        LevelManager.Instance.CalculateWaypoints(2);
+        LevelManager.Instance.CalculateWaypoints();
     }
 
     public void SelectTower(Tower tower)
@@ -174,7 +221,7 @@ public class GameManager : Singleton<GameManager>
 
     private IEnumerator SpawnWave()
     {
-        for (int i = 0; i < 25; i++)
+        for (int i = 0; i < EnemyPerWave; i++)
         {
             int enemyIndex = Random.Range(0, 4);
 

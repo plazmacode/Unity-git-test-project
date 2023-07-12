@@ -11,7 +11,8 @@ public class Tower : MonoBehaviour
 
     private List<Enemy> enemies = new List<Enemy>();
 
-    public int MoveDistance { get; set; } = 5;
+    [SerializeField]
+    private int moveDistance = 5;
 
     [SerializeField]
     private GameObject turret;
@@ -31,7 +32,7 @@ public class Tower : MonoBehaviour
     private float attackCooldown;
 
     [SerializeField]
-    private TextMeshProUGUI enemiesText;
+    private TextMeshProUGUI towerMoveCooldownText;
 
     [SerializeField]
     private SpriteRenderer rangeSpriteRenderer;
@@ -41,20 +42,34 @@ public class Tower : MonoBehaviour
 
     private List<Collider2D> overlaps = new List<Collider2D>();
 
+    [SerializeField]
+    private int towerMoveCooldown = 3;
+
+    public int TowerMoveCooldown {
+        get
+        {
+            return towerMoveCooldown;
+        }
+        set
+        {
+            towerMoveCooldown = value;
+            towerMoveCooldownText.text = towerMoveCooldown.ToString();
+        }
+    }
+
     public float ProjectileSpeed { get => projectileSpeed; set => projectileSpeed = value; }
     public int Damage { get => damage; set => damage = value; }
+    public int MoveDistance { get => moveDistance; set => moveDistance = value; }
 
     private void Awake()
     {
         GameManager.Instance.Towers.Add(this);
-        Time.timeScale = 1.0f;
     }
 
     private void Update()
     {
         UpdateEnemies();
         Attack();
-        enemiesText.text = enemies.Count.ToString();
     }
 
     private void UpdateEnemies()

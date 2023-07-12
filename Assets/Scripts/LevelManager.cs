@@ -14,13 +14,15 @@ public class LevelManager : Singleton<LevelManager>
 
     private Stack<Node> path;
 
+    public int WaypointCount { get; set; }
+
     public Stack<Node> Path
     {
         get
         {
             if (path == null)
             {
-                CalculateWaypoints(2);
+                CalculateWaypoints();
             }
             return new Stack<Node>(new Stack<Node>(path));
         }
@@ -31,34 +33,52 @@ public class LevelManager : Singleton<LevelManager>
 
     public void RecalculatePath()
     {
-        path = AStar.Instance.GetWaypointsPath(Waypoints);
+        // Calculate Sequential
+        if (TestController.Instance.SequentialMode)
+        {
+            path = AStar.Instance.GetWaypointsPath(waypoints);
+        }
+        // Calculate shortest
+        else
+        {
+            path = AStar.Instance.GetShortestWaypointPath(waypoints);
+        }
         TileManager.Instance.ColorPath(path, Waypoints);
         InterfaceManager.Instance.UpdateLineRendererPath(path);
     }
 
     private void Start()
     {
-        CalculateWaypoints(2);
+        CalculateWaypoints();
     }
 
-    public void CalculateWaypoints(int waypointAmount)
+    public void CalculateWaypoints()
     {
         List<Vector2Int> waypoints = new List<Vector2Int>();
 
         waypoints.Add(startPosition);
-        for (int i = 0; i < waypointAmount; i++)
+        for (int i = 0; i < WaypointCount; i++)
         {
             waypoints.Add(AStar.Instance.GetRandomNodePosition());
         }
         waypoints.Add(goalPosition);
 
-
-        path = AStar.Instance.GetWaypointsPath(waypoints);
+        // Calculate Sequential
+        if (TestController.Instance.SequentialMode)
+        {
+            path = AStar.Instance.GetWaypointsPath(waypoints);
+        }
+        // Calculate shortest
+        else
+        {
+            path = AStar.Instance.GetShortestWaypointPath(waypoints);
+        }
 
         Waypoints = waypoints;
         InterfaceManager.Instance.UpdateLineRendererPath(path);
         TileManager.Instance.ColorPath(path, Waypoints);
     }
+
 
     public void GeneratePath(bool showDebug)
     {
@@ -77,7 +97,7 @@ public class LevelManager : Singleton<LevelManager>
             // Generate Waypoints path
             if (path == null)
             {
-                CalculateWaypoints(2);
+                CalculateWaypoints();
             }
             TileManager.Instance.ColorPath(path, Waypoints);
         }

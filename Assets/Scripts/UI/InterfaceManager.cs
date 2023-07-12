@@ -8,13 +8,26 @@ public class InterfaceManager : Singleton<InterfaceManager>
 {
     [SerializeField]
     TextMeshProUGUI enemyCountText;
+
+    [SerializeField]
+    TextMeshProUGUI waveCounterText;
+
+    [SerializeField]
+    TextMeshProUGUI setupPhaseText;
+
+    [SerializeField]
+    TextMeshProUGUI healthText;
+
     public int EnemyCount { get; set; }
+    public TextMeshProUGUI SetupPhaseText { get => setupPhaseText; set => setupPhaseText = value; }
+
     private StringBuilder enemyCountBuilder = new StringBuilder();
+    private StringBuilder waveCounterBuilder = new StringBuilder();
+    private StringBuilder healthBuilder = new StringBuilder();
     private void Update()
     {
-        UpdateEnemyCount();
+        UpdateInterface();
         InputHandler();
-        
     }
 
     private void InputHandler()
@@ -25,15 +38,27 @@ public class InterfaceManager : Singleton<InterfaceManager>
         }
     }
 
-    private void UpdateEnemyCount()
+    private void UpdateInterface()
     {
-        // StringBuilder implementation for better performance.
+        waveCounterBuilder.Length = 0;
+        waveCounterBuilder.Append("Wave: ");
+        waveCounterBuilder.Append(GameManager.Instance.Waves.ToString());
+
+        waveCounterText.text = waveCounterBuilder.ToString();
+
         enemyCountBuilder.Length = 0;
         enemyCountBuilder.Append("Enemies: ");
         enemyCountBuilder.Append(EnemyCount.ToString());
 
         enemyCountText.text = enemyCountBuilder.ToString();
+
+        healthBuilder.Length = 0;
+        healthBuilder.Append("Health: ");
+        healthBuilder.Append(GameManager.Instance.Health.ToString());
+
+        healthText.text = healthBuilder.ToString();
     }
+
 
     /// <summary>
     /// LineRenderer path visualization

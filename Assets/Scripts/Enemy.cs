@@ -83,6 +83,7 @@ public class Enemy : MonoBehaviour
     private void Release()
     {
         InterfaceManager.Instance.EnemyCount--;
+        GameManager.Instance.EnemiesKilledInWave++;
         foreach (Tower tower in Towers)
         {
             tower.RemoveEnemy(this);
@@ -112,6 +113,7 @@ public class Enemy : MonoBehaviour
     {
         if (other.tag == "Goal")
         {
+            GameManager.Instance.Health--;
             Release();
         }
     }

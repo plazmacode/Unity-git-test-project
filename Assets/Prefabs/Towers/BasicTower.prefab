@@ -392,7 +392,7 @@ MonoBehaviour:
   projectileSpeed: 8
   damage: 5
   attackCooldown: 0.3
-  enemiesText: {fileID: 8701977377986303175}
+  towerMoveCooldownText: {fileID: 8701977377986303175}
   rangeSpriteRenderer: {fileID: 470283665}
   rangeCollider: {fileID: 470283666}
 --- !u!50 &1533300455
@@ -428,7 +428,7 @@ GameObject:
   - component: {fileID: 8428638150803714098}
   - component: {fileID: 8701977377986303175}
   m_Layer: 5
-  m_Name: Text (TMP)
+  m_Name: TowerMoveCooldownText
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
